@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    
+}
+
+nav {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#containerLogin {
+    margin-right: 1%;
+}
+
+#titleLink {
+    color: whitesmoke;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+#titleLink:visited {
+    color: whitesmoke;
+}
+
+#registerLink {
+    color: whitesmoke;
+    
+}
+
+.inputNav {
+    height: 30px;
+    border-radius: 8px;
+    text-indent: 3px;
+}
+
+#sendButton {
+    border-radius: 8px;
+    height: 30px;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+}
+
+#containerDescriptionAuthor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 125px;
+    background-color: ghostwhite;
+}
+
+#avatarAuthor {
+    height: 110px;
+    border: black solid 1px;
+    border-radius: 35%;
+}
+
+#descriptionAuthor {
+
+}
