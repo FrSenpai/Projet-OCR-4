@@ -56,6 +56,25 @@ function addUser($pseudo, $password) {
     if ($addUser === false) {
         throw new Exception('Impossible d\'ajouter l\'utilisateur');
     } else {
+        $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['password'] = $passwordHash;
+
         header('Location: index.php');
     }
+}
+
+function login($pseudo, $password) {
+    $usersManager = new UsersManager();
+
+    $passwordHash = hash('sha256', $password);
+    $userPseudo = $usersManager->verifyPseudo($pseudo);
+    
+    if (preg_match("/$pseudo/i", $userPseudo['pseudo'])) {
+        print('C\'est ok, on continue !');
+        $userPseudo->closeCursor()
+        
+    } else {
+        print('Mauvais pseudo :(');
+    }
+
 }

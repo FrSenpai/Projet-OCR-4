@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require('controller/frontend.php');
 
 try {
@@ -37,7 +39,7 @@ try {
         }
 
         if ($_GET['action'] == 'addUser') {
-            if (isset($_POST['pseudo']) && isset($_POST('password'))) {
+            if (isset($_POST['pseudo']) && isset($_POST['password'])) {
                 //TODO : preg_match pour pseudo (x caractères max) / password (x caractères mini, x caractères max, autres)
                 addUser($_POST['pseudo'], $_POST['password']);
             } else {
@@ -45,6 +47,14 @@ try {
             }
             
         }
+
+        if ($_GET['action'] == 'login') {
+            if (isset($_POST['pseudo']) && isset($_POST['password'])) {
+                login($_POST['pseudo'], $_POST['password']);
+            } else {
+                throw new Exception('Nope etape 1');
+            }
+        } 
     } else {
         listPosts();
     }
