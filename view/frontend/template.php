@@ -20,7 +20,7 @@
                     <input type="password" name="password" class='inputNav' placeholder="Mot de passe" />
                     <button type="submit" id='sendButton'>Envoyer!</button>
                 </form>
-                <a href="#" id="registerLink">Pas encore inscrit ?</a>
+                <a href="index.php?action=register" id="registerLink">Pas encore inscrit ?</a>
             </div>
                 
             

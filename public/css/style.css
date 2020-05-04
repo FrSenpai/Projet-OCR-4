@@ -4,10 +4,6 @@ body {
     flex-direction: column;
 }
 
-h1 {
-    
-}
-
 nav {
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
@@ -60,8 +56,4 @@ nav {
     height: 110px;
     border: black solid 1px;
     border-radius: 35%;
-}
-
-#descriptionAuthor {
-
 }

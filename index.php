@@ -31,6 +31,14 @@ try {
                 reportComment($_GET['commentId'], $_GET['postId']);
             }
         }
+
+        if ($_GET['action'] == 'register') {
+            register();
+        }
+
+        if ($_GET['action'] == 'addUser') {
+            addUser($_POST['pseudo'], $_POST['password']);
+        }
     } else {
         listPosts();
     }

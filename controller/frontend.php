@@ -2,6 +2,7 @@
 //TODO : Essayer de faire ça en classe & faire un autoload des classes
 require_once('model/PostsManager.php');
 require_once('model/CommentsManager.php');
+require_once('model/UsersManager.php');
 
 function listPosts() {
     $postsManager = new PostsManager();
@@ -41,4 +42,20 @@ function reportComment($commentId, $postId) {
         header('Location: index.php?action=post&id='.$postId);
     }
 
+}
+
+function register() {
+    require('view/frontend/registerView.php');
+}
+
+function addUser($pseudo, $password) {
+    $usersManager = new UsersManager();
+    $passwordHash = hash('sha256', $password);
+    $addUser = $usersManager->addUser($pseudo, $passwordHash);
+
+    if ($addUser === false) {
+        throw new Exception('Impossible d\'ajouter l\'utilisateur');
+    } else {
+        header('Location: index.php');
+    }
 }
