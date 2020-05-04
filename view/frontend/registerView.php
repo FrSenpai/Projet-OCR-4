@@ -1,4 +1,3 @@
-<?= $title = 'RegisterView'; ?>
 
 <?php ob_start(); ?>
 
@@ -10,3 +9,7 @@
         <button type='submit'>S'inscrire !</button>
     </form>
 </div>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require('template.php'); ?>

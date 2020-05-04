@@ -37,7 +37,13 @@ try {
         }
 
         if ($_GET['action'] == 'addUser') {
-            addUser($_POST['pseudo'], $_POST['password']);
+            if (isset($_POST['pseudo']) && isset($_POST('password'))) {
+                //TODO : preg_match pour pseudo (x caractères max) / password (x caractères mini, x caractères max, autres)
+                addUser($_POST['pseudo'], $_POST['password']);
+            } else {
+                throw new Exception('Vous devez remplir les champs');
+            }
+            
         }
     } else {
         listPosts();
