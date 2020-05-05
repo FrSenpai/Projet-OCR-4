@@ -67,14 +67,30 @@ function login($pseudo, $password) {
     $usersManager = new UsersManager();
 
     $passwordHash = hash('sha256', $password);
-    $userPseudo = $usersManager->verifyPseudo($pseudo);
+    $user = $usersManager->verifyPseudo($pseudo);
     
-    if (preg_match("/$pseudo/i", $userPseudo['pseudo'])) {
-        print('C\'est ok, on continue !');
-        $userPseudo->closeCursor()
+    if (preg_match("/$pseudo/i", $user['pseudo'])) {
+        if(preg_match("/$passwordHash/i", $user['pass'])) {
+            //Si tout est bon, on attribue les $_SESSION
+            $_SESSION['pseudo'] = $user['pseudo'];
+            $_SESSION['pass'] = $user['pass'];
+
+            if ($user['isAdmin'] > 0) {
+                $_SESSION['isAdmin'] = $user['isAdmin'];
+            }
+            
+            header('Location: index.php');
+        } else {
+            print('Le mdp pas ok :(');
+        }
         
     } else {
         print('Mauvais pseudo :(');
     }
+    $user->closeCursor();
+}
 
+function logout() {
+    session_destroy();
+    header('Location: index.php');
 }

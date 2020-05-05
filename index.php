@@ -55,6 +55,10 @@ try {
                 throw new Exception('Nope etape 1');
             }
         } 
+
+        if ($_GET['action'] == 'logout') {
+            logout();
+        }
     } else {
         listPosts();
     }

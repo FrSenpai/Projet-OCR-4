@@ -18,9 +18,9 @@
                 ?>
                     <div>
                         <ul>
-                            <li><a href="#">Deconnexion</a></li>
+                            <li><a href="index.php?action=logout">Deconnexion</a></li>
                             <?php 
-                                if (isset($_SESSION['isAdmin']) == 1) {
+                                if (isset($_SESSION['isAdmin']) > 0) {
                                     ?>
                                         <li><a href="#">Panneau d'administration</a></li>
                                     <?php
