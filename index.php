@@ -18,8 +18,8 @@ try {
         //On veut add un commentaire à un article spécifique
         if ($_GET['action'] == 'addComment') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                if (!empty($_POST['user']) && !empty($_POST['content'])) {
-                    addComment($_GET['postId'], $_POST['user'], $_POST['content']);
+                if (!empty($_SESSION['pseudo']) && !empty($_POST['content'])) {
+                    addComment($_GET['postId'], $_SESSION['pseudo'], $_POST['content']);
                 } else {
                     throw new Exception('Fail etape 2');
                 }

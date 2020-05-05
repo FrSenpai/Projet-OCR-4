@@ -14,15 +14,28 @@
         <?= htmlspecialchars($postById['content']); ?>
         <br />
     </p>
+    <?php 
 
-    <div>
-        <form action='index.php?action=addComment&amp;postId=<?= $postById['id'] ?>' method='post'>
-            <p>Ajouter un commentaire !</p>
-            <input type="text" name='user' placeholder='Votre pseudo'>
-            <input type="text" name='content' placeholder='Votre commentaire'>
-            <button type='submit'>Envoyer !</button>
-        </form>
-    </div>
+        if (isset($_SESSION['pseudo'])) {
+            ?>  
+                <div>
+                    <form action='index.php?action=addComment&amp;postId=<?= $postById['id'] ?>' method='post'>
+                        <p>Ajouter un commentaire !</p>
+                        <input type="text" name='content' placeholder='Votre commentaire'>
+                        <button type='submit'>Envoyer !</button>
+                    </form>
+                </div>
+            <?php
+        } else {
+            ?>
+                <div>
+                    <p>Vous devez être connecté afin de poster un commentaire.</p>
+                </div>
+            <?php
+        }
+
+    ?>
+    
 
 
     <?php 

@@ -67,7 +67,7 @@ function login($pseudo, $password) {
     $usersManager = new UsersManager();
 
     $passwordHash = hash('sha256', $password);
-    $user = $usersManager->verifyPseudo($pseudo);
+    $user = $usersManager->getUserByPseudo($pseudo);
     
     if (preg_match("/$pseudo/i", $user['pseudo'])) {
         if(preg_match("/$passwordHash/i", $user['pass'])) {
@@ -87,7 +87,7 @@ function login($pseudo, $password) {
     } else {
         print('Mauvais pseudo :(');
     }
-    $user->closeCursor();
+    
 }
 
 function logout() {
