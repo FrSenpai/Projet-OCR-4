@@ -2,6 +2,7 @@
 //TODO : Essayer de faire ça en classe & faire un autoload des classes
 require_once('model/PostsManager.php');
 require_once('model/CommentsManager.php');
+require_once('model/UsersManager.php');
 
 function listPosts() {
     $postsManager = new PostsManager();
@@ -41,4 +42,55 @@ function reportComment($commentId, $postId) {
         header('Location: index.php?action=post&id='.$postId);
     }
 
+}
+
+function register() {
+    require('view/frontend/registerView.php');
+}
+
+function addUser($pseudo, $password) {
+    $usersManager = new UsersManager();
+    $passwordHash = hash('sha256', $password);
+    $addUser = $usersManager->addUser($pseudo, $passwordHash);
+
+    if ($addUser === false) {
+        throw new Exception('Impossible d\'ajouter l\'utilisateur');
+    } else {
+        $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['password'] = $passwordHash;
+
+        header('Location: index.php');
+    }
+}
+
+function login($pseudo, $password) {
+    $usersManager = new UsersManager();
+
+    $passwordHash = hash('sha256', $password);
+    $user = $usersManager->getUserByPseudo($pseudo);
+    
+    if (preg_match("/$pseudo/i", $user['pseudo'])) {
+        if(preg_match("/$passwordHash/i", $user['pass'])) {
+            //Si tout est bon, on attribue les $_SESSION
+            $_SESSION['pseudo'] = $user['pseudo'];
+            $_SESSION['pass'] = $user['pass'];
+
+            if ($user['isAdmin'] > 0) {
+                $_SESSION['isAdmin'] = $user['isAdmin'];
+            }
+            
+            header('Location: index.php');
+        } else {
+            print('Le mdp pas ok :(');
+        }
+        
+    } else {
+        print('Mauvais pseudo :(');
+    }
+    
+}
+
+function logout() {
+    session_destroy();
+    header('Location: index.php');
 }

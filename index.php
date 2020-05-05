@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require('controller/frontend.php');
 
 try {
@@ -16,8 +18,8 @@ try {
         //On veut add un commentaire à un article spécifique
         if ($_GET['action'] == 'addComment') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                if (!empty($_POST['user']) && !empty($_POST['content'])) {
-                    addComment($_GET['postId'], $_POST['user'], $_POST['content']);
+                if (!empty($_SESSION['pseudo']) && !empty($_POST['content'])) {
+                    addComment($_GET['postId'], $_SESSION['pseudo'], $_POST['content']);
                 } else {
                     throw new Exception('Fail etape 2');
                 }
@@ -30,6 +32,32 @@ try {
             if (isset($_GET['commentId']) && $_GET['commentId'] > 0) {
                 reportComment($_GET['commentId'], $_GET['postId']);
             }
+        }
+
+        if ($_GET['action'] == 'register') {
+            register();
+        }
+
+        if ($_GET['action'] == 'addUser') {
+            if (isset($_POST['pseudo']) && isset($_POST['password'])) {
+                //TODO : preg_match pour pseudo (x caractères max) / password (x caractères mini, x caractères max, autres)
+                addUser($_POST['pseudo'], $_POST['password']);
+            } else {
+                throw new Exception('Vous devez remplir les champs');
+            }
+            
+        }
+
+        if ($_GET['action'] == 'login') {
+            if (isset($_POST['pseudo']) && isset($_POST['password'])) {
+                login($_POST['pseudo'], $_POST['password']);
+            } else {
+                throw new Exception('Nope etape 1');
+            }
+        } 
+
+        if ($_GET['action'] == 'logout') {
+            logout();
         }
     } else {
         listPosts();
