@@ -51,6 +51,7 @@ function register() {
 function addUser($pseudo, $password) {
     $usersManager = new UsersManager();
     $passwordHash = hash('sha256', $password);
+    //TODO : vérification pseudo existant, autre
     $addUser = $usersManager->addUser($pseudo, $passwordHash);
 
     if ($addUser === false) {

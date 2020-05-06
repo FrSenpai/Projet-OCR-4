@@ -2,13 +2,12 @@
 session_start();
 
 require('controller/frontend.php');
+require('controller/backend.php');
 
 try {
-    
-    
     //TODO : faire un swich avec get action
     if (isset($_GET['action'])) {
-
+        // /!\ Partie front-end /!\
         //On veut check un article
         if ($_GET['action'] == 'post') {
             if (isset($_GET['id'])) {
@@ -59,6 +58,20 @@ try {
         if ($_GET['action'] == 'logout') {
             logout();
         }
+
+        // /!\ Partie back-end /!\
+        if (isset($_SESSION['isAdmin'])) {
+            if ($_GET['action'] == 'adminPanel') {
+                adminPanelView();
+            }
+
+            if ($_GET['action'] == 'banUser') {
+                banUser($_POST['pseudo']);
+            }
+        }
+        
+
+
     } else {
         listPosts();
     }

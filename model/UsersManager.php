@@ -23,4 +23,9 @@ class UsersManager extends Manager {
     //Count user
 
     //Delete user
+    public function deleteUserByPseudo($pseudo) {
+        $db = $this->dbConnect();
+        $user = $db->query('DELETE FROM users WHERE pseudo=\''.$pseudo.'\'');
+        return $user;
+    }
 }
