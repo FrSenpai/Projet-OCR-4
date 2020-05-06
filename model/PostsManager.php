@@ -19,11 +19,23 @@ class PostsManager extends Manager {
 
         return $postById;
     }
-    //Add post
+    
+    
+    public function getPostsWithPagination($limite, $debut) {
+        $db = $this->dbConnect();
+        $nbPost = $db->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM posts LIMIT :limite OFFSET :debut");
+        $nbPost->bindValue('limite', $limite, PDO::PARAM_INT);
+        $nbPost->bindValue('debut', $debut, PDO::PARAM_INT);
+        $nbPost->execute();
 
+        return $nbPost;
+    }
 
-    //Delete post
-
-    //Edit post s
+    public function countNbPosts() {
+        $db = $this->dbConnect();
+        $resultFoundRows = $db->query('SELECT COUNT(*) FROM posts');
+        $nbRows = $resultFoundRows->fetchColumn();
+        return $nbRows;
+    }
 
 }

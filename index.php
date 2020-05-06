@@ -68,6 +68,15 @@ try {
             if ($_GET['action'] == 'banUser') {
                 banUser($_POST['pseudo']);
             }
+
+            if ($_GET['action'] == 'adminPostsManagement') {
+                if (!empty($_GET['page'])) {
+                    adminListPosts(2, $_GET['page']);
+                } else {
+                    adminListPosts(2, 1);
+                }
+                
+            }
         }
         
 
