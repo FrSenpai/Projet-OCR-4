@@ -7,16 +7,7 @@ function adminPanelView() {
     require('view/backend/dashboard.php');
 }
 
-function banUser($pseudo) {
-    $usersManager = new UsersManager();
-    $bannedUser = $usersManager->deleteUserByPseudo($pseudo);
 
-    if ($bannedUser === false) {
-        throw new Exception('Impossible de bannir l\'utilisateur');
-    } else {
-        header('Location: index.php?action=adminPanel');
-    }
-}
 
 function adminListPosts($limite, $page) {
     $debut = ($page - 1) * $limite;

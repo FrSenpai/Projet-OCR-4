@@ -1,0 +1,40 @@
+<?php 
+
+namespace Projet\controller;
+require_once('model/PostsManager.php');
+require_once('model/Post.php');
+
+
+use Projet\model\{
+    PostsManager,
+    Post,
+    CommentsManager
+};
+
+class PostsController {
+    private $postsManager;
+    private $post;
+    private $commentsManager;
+
+
+    public function __construct() {
+        $this->postsManager = new PostsManager();
+        $this->post = new Post();
+        $this->commentsManager = new CommentsManager();
+    }
+
+    public function listPosts() {
+        $posts = $this->postsManager->getPosts();
+        require('view/frontend/homeView.php');
+    }
+
+    public function viewPostById() {
+        $postsManager = new PostsManager();
+        $commentsManager = new CommentsManager();
+    
+        $postById = $postsManager->viewPostById($_GET['id']);
+        $comments = $commentsManager->getComments($_GET['id']);
+    
+        require('view/frontend/postById.php');
+    }
+}

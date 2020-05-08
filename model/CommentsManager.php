@@ -1,5 +1,8 @@
 <?php 
-require_once('model/Manager.php');
+
+namespace Projet\model;
+use Projet\model\Manager;
+
 
 class CommentsManager extends Manager {
 
