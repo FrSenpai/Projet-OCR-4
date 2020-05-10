@@ -77,7 +77,14 @@ try {
         // /!\ Partie back-end /!\
         if (isset($_SESSION['isAdmin'])) {
             if ($_GET['action'] == 'adminPanel') {
-                adminPanelView();
+                if (!empty($_GET['page'])) {
+                    $comments = new CommentsController();
+                    $comments->getCommentsWithPagination(5, $_GET['page']);
+                } else {
+                    $comments = new CommentsController();
+                    $comments->getCommentsWithPagination(5, 1);
+                }
+                
             }
 
             if ($_GET['action'] == 'banUser') {
@@ -86,7 +93,7 @@ try {
             }
 
             if ($_GET['action'] == 'adminPostsManagement') {
-                $posts = new PostsController;
+                $posts = new PostsController();
                 if (!empty($_GET['page'])) {
                     //Si $_GET['page'] inférieur ou égal a nbdePage
                     $posts->adminListPosts(2, $_GET['page']);
@@ -96,7 +103,7 @@ try {
             }
 
             if ($_GET['action'] == 'deleteComment') {
-                $comments = new CommentsController;
+                $comments = new CommentsController();
                 $comments->deleteComment($_GET['commentId']);
             }
         }

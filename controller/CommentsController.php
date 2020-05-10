@@ -56,4 +56,13 @@ class CommentsController {
         }
     }
 
+    public function getCommentsWithPagination($limite, $page) {
+        $debut = ($page - 1) * $limite;
+        $nbElements = $this->commentsManager->countComments();
+        $nombreDeCommentaires = ceil($nbElements / $limite);
+        $nbComment = $this->commentsManager->getCommentsReportedWithPagination($limite, $debut);
+        
+        require('view/backend/dashboard.php');
+    }
+
 }

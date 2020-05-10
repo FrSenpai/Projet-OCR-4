@@ -2,6 +2,7 @@
 
 namespace Projet\model;
 use Projet\model\Manager;
+use PDO;
 
 
 class CommentsManager extends Manager {
@@ -51,5 +52,24 @@ class CommentsManager extends Manager {
         $deletedComments = $db->query('DELETE FROM comments WHERE user = \''.$user.'\'');
 
         return $deletedComments;
+    }
+
+    public function countComments() {
+        $db = $this->dbConnect();
+        $comment = $db->query('SELECT COUNT(*) FROM comments WHERE reported = 1');
+        $nbRows = $comment->fetchColumn();
+        return $nbRows;
+    }
+
+    public function getCommentsReportedWithPagination($limite, $debut) {
+
+        $db = $this->dbConnect();
+        $nbComments = $db->prepare("SELECT * FROM comments WHERE reported = 1 LIMIT :limite OFFSET :debut");
+        $nbComments->bindValue('limite', $limite, PDO::PARAM_INT);
+        $nbComments->bindValue('debut', $debut, PDO::PARAM_INT);
+        $nbComments->execute();
+
+        return $nbComments;
+
     }
 }
