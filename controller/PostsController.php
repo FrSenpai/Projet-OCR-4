@@ -37,4 +37,15 @@ class PostsController {
     
         require('view/frontend/postById.php');
     }
+
+    public function adminListPosts($limite, $page) {
+        $debut = ($page - 1) * $limite;
+        
+        $postsManager = new PostsManager();
+        $nbPost = $postsManager->getPostsWithPagination($limite, $debut);
+        $nbElements = $postsManager->countNbPosts();
+        $nombreDePages = ceil($nbElements / $limite);
+    
+        require('view/backend/postsManagement.php');
+    }
 }

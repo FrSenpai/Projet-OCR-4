@@ -2,6 +2,8 @@
 
 namespace Projet\model;
 use Projet\model\Post;
+use PDO;
+
 require_once("model/Manager.php");
 
 
@@ -28,7 +30,7 @@ class PostsManager extends Manager {
     
     public function getPostsWithPagination($limite, $debut) {
         $db = $this->dbConnect();
-        $nbPost = $db->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM posts LIMIT :limite OFFSET :debut");
+        $nbPost = $db->prepare("SELECT * FROM posts LIMIT :limite OFFSET :debut");
         $nbPost->bindValue('limite', $limite, PDO::PARAM_INT);
         $nbPost->bindValue('debut', $debut, PDO::PARAM_INT);
         $nbPost->execute();

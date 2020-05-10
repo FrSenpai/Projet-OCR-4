@@ -45,4 +45,15 @@ class CommentsController {
         }
     
     }
+
+    public function deleteComment($commentId) {
+        $comment = $this->commentsManager->deleteComment($commentId);
+
+        if ($comment === false) {
+            throw new Exception('Impossible de supprimer le commentaire...');
+        } else {
+            header('Location: index.php?action=adminPanel');
+        }
+    }
+
 }

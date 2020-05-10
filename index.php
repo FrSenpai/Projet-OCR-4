@@ -82,16 +82,22 @@ try {
 
             if ($_GET['action'] == 'banUser') {
                 $user = new UsersController();
-                $user->banUser($_POST['pseudo']);
+                $user->banUser($_GET['pseudo']);
             }
 
             if ($_GET['action'] == 'adminPostsManagement') {
+                $posts = new PostsController;
                 if (!empty($_GET['page'])) {
-                    adminListPosts(2, $_GET['page']);
+                    //Si $_GET['page'] inférieur ou égal a nbdePage
+                    $posts->adminListPosts(2, $_GET['page']);
                 } else {
-                    adminListPosts(2, 1);
+                    $posts->adminListPosts(2, 1);
                 }
-                
+            }
+
+            if ($_GET['action'] == 'deleteComment') {
+                $comments = new CommentsController;
+                $comments->deleteComment($_GET['commentId']);
             }
         }
     } else {

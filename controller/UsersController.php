@@ -79,8 +79,8 @@ private $user;
     // A test
     public function banUser($pseudo) {
         $bannedUser = $this->usersManager->deleteUserByPseudo($pseudo);
-    
-        if ($bannedUser === false) {
+        $commentsUser = $this->commentsManager->deleteCommentByUser($pseudo);
+        if ($bannedUser === false || $commentsUser === false) {
             throw new Exception('Impossible de bannir l\'utilisateur');
         } else {
             header('Location: index.php?action=adminPanel');

@@ -31,4 +31,25 @@ class CommentsManager extends Manager {
 
         return $affectedComment;
     }
+
+    public function getCommentsReported() {
+        $db = $this->dbConnect();
+        $comments = $db->query('SELECT * FROM comments WHERE reported = 1');
+
+        return $comments;
+    }
+
+    public function deleteComment($commentId) {
+        $db = $this->dbConnect();
+        $comment = $db->query('DELETE FROM comments WHERE id = \''.$commentId.'\'');
+        
+        return $comment;
+    }
+
+    public function deleteCommentByUser($user) {
+        $db = $this->dbConnect();
+        $deletedComments = $db->query('DELETE FROM comments WHERE user = \''.$user.'\'');
+
+        return $deletedComments;
+    }
 }
