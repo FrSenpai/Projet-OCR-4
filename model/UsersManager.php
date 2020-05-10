@@ -22,6 +22,12 @@ class UsersManager extends Manager {
 
     
     //Count user
+    public function countUsers() {
+        $db = $this->dbConnect();
+        $nbUsers = $db->query('SELECT COUNT(*) FROM users');
+
+        return $nbUsers;
+    }
 
     //Delete user
     public function deleteUserByPseudo($pseudo) {
