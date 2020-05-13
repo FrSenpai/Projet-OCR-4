@@ -3,6 +3,8 @@ namespace Projet\model;
 use Projet\model\Manager;
 
 class UsersManager extends Manager {
+    public $nbUsers;
+
     //Add user
     public function addUser($pseudo, $password) {
         $db = $this->dbConnect();
@@ -24,9 +26,9 @@ class UsersManager extends Manager {
     //Count user
     public function countUsers() {
         $db = $this->dbConnect();
-        $nbUsers = $db->query('SELECT COUNT(*) FROM users');
-
-        return $nbUsers;
+        $users = $db->query('SELECT COUNT(*) FROM users');
+        $this->_nbUsers = $users->fetchColumn();
+        return $this->_nbUsers;
     }
 
     //Delete user

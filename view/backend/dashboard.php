@@ -42,7 +42,15 @@
             }
 
             $nbComment->closeCursor();
+            
         ?>
+    </div>
+    <div>
+        <h4>Statistiques</h4>
+        <p>Il y a <?php 
+        echo $nbUsers;
+        ?> 
+        utilisateur(s) inscrit(s).</p>
     </div>
 </section>
 

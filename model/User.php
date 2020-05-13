@@ -2,6 +2,12 @@
 namespace Projet\model;
 use DateTime;
 
+use Projet\model\{
+    Comment,
+    CommentsManager,
+    UsersManager
+};
+
 class User
 {
     private $_id;
@@ -66,6 +72,22 @@ class User
     public function getisAdmin(): string
     {
         return $this->_isAdmin;
+    }
+
+
+    public function showAdminPanel($limite, $page) {
+        //Calcul pour la pagination des commentaires signalés
+        $debut = ($page - 1) * $limite;
+        $commentsManager = new CommentsManager();
+        $nbElements = $commentsManager->countComments();
+        $nombreDeCommentaires = ceil($nbElements / $limite);
+        $nbComment = $commentsManager->getCommentsReportedWithPagination($limite, $debut);
+        //On prépare certaines statistiques
+        
+        $usersManager = new UsersManager();
+        $nbUsers = $usersManager->countUsers();
+
+        require('view/backend/dashboard.php');
     }
 
 }

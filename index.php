@@ -1,13 +1,14 @@
 <?php
-require('controller/backend.php');
 require_once('controller/PostsController.php');
 require_once('controller/UsersController.php');
 require_once('controller/CommentsController.php');
+require_once('controller/AdminController.php');
 
 use Projet\controller\{
     PostsController,
     UsersController,
-    CommentsController
+    CommentsController,
+    AdminController
 };
 
 session_start();
@@ -78,11 +79,14 @@ try {
         if (isset($_SESSION['isAdmin'])) {
             if ($_GET['action'] == 'adminPanel') {
                 if (!empty($_GET['page'])) {
-                    $comments = new CommentsController();
-                    $comments->getCommentsWithPagination(5, $_GET['page']);
+                    //$comments = new CommentsController();
+                    //$comments->getCommentsWithPagination(5, $_GET['page']);
+
+                    $admin = new AdminController();
+                    $admin->viewAdminPanel(5, $_GET['page']);
                 } else {
-                    $comments = new CommentsController();
-                    $comments->getCommentsWithPagination(5, 1);
+                    $admin = new AdminController();
+                    $admin->viewAdminPanel(5, 1);
                 }
                 
             }
