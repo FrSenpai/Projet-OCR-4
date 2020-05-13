@@ -47,10 +47,8 @@
     </div>
     <div>
         <h4>Statistiques</h4>
-        <p>Il y a <?php 
-        echo $nbUsers;
-        ?> 
-        utilisateur(s) inscrit(s).</p>
+        <p>Il y a <?= $nbUsers; ?> utilisateur(s) inscrit(s).</p>
+        <p>Le blog recense <?= $nbPosts; ?> article(s) dont <?= $nbComments ?> commentaire(s).</p>
     </div>
 </section>
 

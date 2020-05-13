@@ -54,7 +54,7 @@ class CommentsManager extends Manager {
         return $deletedComments;
     }
 
-    public function countComments() {
+    public function countCommentsReported() {
         $db = $this->dbConnect();
         $comment = $db->query('SELECT COUNT(*) FROM comments WHERE reported = 1');
         $nbRows = $comment->fetchColumn();
@@ -70,6 +70,12 @@ class CommentsManager extends Manager {
         $nbComments->execute();
 
         return $nbComments;
+    }
 
+    public function countComments() {
+        $db = $this->dbConnect();
+        $comment = $db->query('SELECT COUNT(*) FROM comments');
+        $nbRows = $comment->fetchColumn();
+        return $nbRows;
     }
 }

@@ -79,13 +79,18 @@ class User
         //Calcul pour la pagination des commentaires signalés
         $debut = ($page - 1) * $limite;
         $commentsManager = new CommentsManager();
-        $nbElements = $commentsManager->countComments();
+        $nbElements = $commentsManager->countCommentsReported();
         $nombreDeCommentaires = ceil($nbElements / $limite);
         $nbComment = $commentsManager->getCommentsReportedWithPagination($limite, $debut);
         //On prépare certaines statistiques
         
         $usersManager = new UsersManager();
         $nbUsers = $usersManager->countUsers();
+
+        $postsManager = new PostsManager();
+        $nbPosts = $postsManager->countNbPosts();
+
+        $nbComments = $commentsManager->countComments();
 
         require('view/backend/dashboard.php');
     }

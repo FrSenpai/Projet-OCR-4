@@ -20,6 +20,5 @@ class AdminController {
         //On a besoin d'afficher une pagination sur les commentaires report
         $user = new User();
         $user->showAdminPanel($limite, $debut);
-        
     }
 }
