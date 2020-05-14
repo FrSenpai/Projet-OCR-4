@@ -21,4 +21,8 @@ class AdminController {
         $user = new User();
         $user->showAdminPanel($limite, $debut);
     }
+
+    public function viewAddPost() {
+        require('view/backend/addPosts.php');
+    }
 }

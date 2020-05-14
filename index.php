@@ -110,6 +110,16 @@ try {
                 $comments = new CommentsController();
                 $comments->deleteComment($_GET['commentId']);
             }
+
+            if ($_GET['action'] == 'addPosts') {
+                $admin = new AdminController();
+                $admin->viewAddPost();
+            }
+
+            if ($_GET['action'] == 'sendNewPost') {
+                $posts = new PostsController();
+                $posts->sendNewPost(htmlspecialchars($_POST['postTitle']) ,htmlspecialchars($_POST['postContent']) );
+            }
         }
     } else {
         $posts = new PostsController();
@@ -120,5 +130,3 @@ try {
 catch(Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
 }
-
-//TODO : Insérer TinyMCE une fois pour le call quand on a besoin 

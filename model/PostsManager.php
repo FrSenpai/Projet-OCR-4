@@ -45,4 +45,12 @@ class PostsManager extends Manager {
         return $nbRows;
     }
 
+    public function addPost($title, $content) {
+        $db = $this->dbConnect();
+        $postAdded = $db->prepare("INSERT INTO posts(title, content, creation_date) VALUES(?,?,NOW())");
+        $postAdded->execute(array($title, $content));
+
+        return $postAdded;
+    }
+ 
 }

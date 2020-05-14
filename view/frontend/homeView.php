@@ -25,7 +25,7 @@ while ($data = $posts->fetch()) {
             </h3>
 
             <p>
-                <?= htmlspecialchars($data['content']); ?>
+                <?= $data['content']; ?>
                 <br />
             </p>
         </article>

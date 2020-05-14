@@ -48,4 +48,11 @@ class PostsController {
     
         require('view/backend/postsManagement.php');
     }
+
+    public function sendNewPost($title, $content) {
+        $postsManager = new PostsManager();
+        $postsManager->addPost($title, $content);
+
+        header("Location: index.php?action=adminPanel");
+    }
 }
