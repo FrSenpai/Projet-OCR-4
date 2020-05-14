@@ -82,8 +82,8 @@ class User
         $nbElements = $commentsManager->countCommentsReported();
         $nombreDeCommentaires = ceil($nbElements / $limite);
         $nbComment = $commentsManager->getCommentsReportedWithPagination($limite, $debut);
+
         //On prépare certaines statistiques
-        
         $usersManager = new UsersManager();
         $nbUsers = $usersManager->countUsers();
 

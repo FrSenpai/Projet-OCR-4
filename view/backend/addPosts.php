@@ -11,6 +11,7 @@
             <textarea class="tinyText" id="postContent" name="postContent"></textarea>
             <button type="submit">Créer l'article !</button>
         </form>
+        <a href="index.php?action=adminPostsManagement">Retour à la liste des articles</a>
     </div>
     
 </section>

@@ -12,8 +12,8 @@
                 <h4><?= $post['title']; ?></h4>
                 <p>Actions :</p>
                 <ul>
-                    <li>Modifier</li>
-                    <li>Supprimer</li>
+                    <li><a href="index.php?action=editPost&id=<?= $post['id']; ?>">Modifier</a></li>
+                    <li> <a href="index.php?action=deletePost&id=<?= $post['id']; ?>">Supprimer</a></li>
                 </ul>
 
                 <?php
@@ -40,7 +40,7 @@
             }
             
             ?>
-        <p>Ajouter un nouvel article</p>
+        <a href="index.php?action=addPost">Ajouter un nouvel article</a>
     </div>
 </section>
 

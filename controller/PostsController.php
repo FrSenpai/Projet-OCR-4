@@ -16,7 +16,7 @@ class PostsController {
     private $post;
     private $commentsManager;
 
-
+    //TODO : Corriger les $managers afin de ne pas dupliquer le code
     public function __construct() {
         $this->postsManager = new PostsManager();
         $this->post = new Post();
@@ -27,13 +27,10 @@ class PostsController {
         $posts = $this->postsManager->getPosts();
         require('view/frontend/homeView.php');
     }
-
+    //TODO : Prendre en param le $postId
     public function viewPostById() {
-        $postsManager = new PostsManager();
-        $commentsManager = new CommentsManager();
-    
-        $postById = $postsManager->viewPostById($_GET['id']);
-        $comments = $commentsManager->getComments($_GET['id']);
+        $postById = $this->postsManager->viewPostById($_GET['id']);
+        $comments = $this->commentsManager->getComments($_GET['id']);
     
         require('view/frontend/postById.php');
     }
@@ -55,4 +52,30 @@ class PostsController {
 
         header("Location: index.php?action=adminPanel");
     }
+
+    public function editPost($postId) {
+        $postsManager = new PostsManager();
+        $post = $postsManager->viewPostById($postId);
+
+        require('view/backend/editPost.php');
+    }
+
+    public function sendEditedPost($postId, $title, $content) {
+        $postsManager = new PostsManager(); 
+        $postsManager->editPost($postId, $title, $content);
+
+        header("Location: index.php?action=adminPanel");
+    }
+
+    public function deletePostAndRelatedComments($postId) {
+        $postsManager = new PostsManager();
+        $postsManager->deletePost($postId);
+
+        $commentsManager = new CommentsManager();
+        $commentsManager->deleteCommentByPostId($postId);
+
+        header("Location: index.php?action=adminPanel");
+    }
+
+
 }

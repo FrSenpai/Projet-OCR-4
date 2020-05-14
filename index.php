@@ -111,14 +111,31 @@ try {
                 $comments->deleteComment($_GET['commentId']);
             }
 
-            if ($_GET['action'] == 'addPosts') {
+            if ($_GET['action'] == 'addPost') {
                 $admin = new AdminController();
                 $admin->viewAddPost();
             }
 
             if ($_GET['action'] == 'sendNewPost') {
                 $posts = new PostsController();
-                $posts->sendNewPost(htmlspecialchars($_POST['postTitle']) ,htmlspecialchars($_POST['postContent']) );
+                $posts->sendNewPost($_POST['postTitle'] ,$_POST['postContent'] );
+            }
+
+            if ($_GET['action'] == 'editPost') {
+                if (isset($_GET['id']) && $_GET['id'] > 0) {
+                    $posts = new PostsController();
+                    $posts->editPost($_GET['id']);
+                }
+            }
+
+            if ($_GET['action'] == 'sendEditedPost') {
+                $posts = new PostsController();
+                $posts->sendEditedPost($_GET['id'], addslashes($_POST['postTitle']) , addslashes($_POST['postContent']));
+            }
+
+            if ($_GET['action'] == 'deletePost') {
+                $posts = new PostsController();
+                $posts->deletePostAndRelatedComments($_GET['id']);
             }
         }
     } else {

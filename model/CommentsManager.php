@@ -78,4 +78,11 @@ class CommentsManager extends Manager {
         $nbRows = $comment->fetchColumn();
         return $nbRows;
     }
+
+    public function deleteCommentByPostId($postId) {
+        $db = $this->dbConnect();
+        $deletedComments = $db->query("DELETE FROM comments WHERE post_id ='$postId'");
+
+        return $deletedComments;
+    }
 }

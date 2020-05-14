@@ -12,14 +12,14 @@ class PostsManager extends Manager {
     //Get a list of all posts
     public function getPosts() {
         $db = $this->dbConnect();
-        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
+        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
         return $req;
     }
 
     //Recup un post via son id
     public function viewPostById($postId) {
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts WHERE id = ?');
+        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr FROM posts WHERE id = ?');
         $req->execute(array($postId));
 
         $postById = $req->fetch();
@@ -51,6 +51,20 @@ class PostsManager extends Manager {
         $postAdded->execute(array($title, $content));
 
         return $postAdded;
+    }   
+
+    public function editPost($postId, $title, $content) {
+        $db = $this->dbConnect();
+        $postEdited = $db->query("UPDATE posts SET title = '$title', content = '$content' WHERE id = '$postId'");
+
+        return $postEdited;
+    }
+
+    public function deletePost($postId) {
+        $db = $this->dbConnect();
+        $deletedPost = $db->query("DELETE FROM posts WHERE id ='$postId'");
+
+        return $deletedPost;
     }
  
 }
