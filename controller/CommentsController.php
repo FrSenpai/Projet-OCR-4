@@ -56,4 +56,14 @@ class CommentsController {
         }
     }
 
+    public function unreportComment($commentId) {
+        $comment = $this->commentsManager->unreportComment($commentId);
+
+        if ($comment === false) {
+            throw new Exception('Impossible de désignaler le commentaire...');
+        } else {
+            header('Location: index.php?action=adminPanel');
+        }
+    }
+
 }

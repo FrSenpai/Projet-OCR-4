@@ -21,6 +21,7 @@
                 <p><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
                 <a href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le commentaire</a>
                 <a href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir l'utilisateur</a>
+                <a href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le signalement</a>
                 <?php
             }
             if ($page > 1) {

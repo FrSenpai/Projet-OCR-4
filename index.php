@@ -137,6 +137,11 @@ try {
                 $posts = new PostsController();
                 $posts->deletePostAndRelatedComments($_GET['id']);
             }
+
+            if ($_GET['action'] == 'unreportComment') {
+                $commentsManager = new CommentsController();
+                $commentsManager->unreportComment($_GET['id']);
+            }
         }
     } else {
         $posts = new PostsController();
