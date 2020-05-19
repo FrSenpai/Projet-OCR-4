@@ -12,14 +12,14 @@ class PostsManager extends Manager {
     //Get a list of all posts
     public function getPosts() {
         $db = $this->dbConnect();
-        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
+        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
         return $req;
     }
 
     //Recup un post via son id
     public function viewPostById($postId) {
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr FROM posts WHERE id = ?');
+        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\) AS creation_date_fr FROM posts WHERE id = ?');
         $req->execute(array($postId));
 
         $postById = $req->fetch();
@@ -30,7 +30,7 @@ class PostsManager extends Manager {
     
     public function getPostsWithPagination($limite, $debut) {
         $db = $this->dbConnect();
-        $nbPost = $db->prepare("SELECT * FROM posts LIMIT :limite OFFSET :debut");
+        $nbPost = $db->prepare("SELECT * FROM posts ORDER BY creation_date DESC LIMIT :limite OFFSET :debut");
         $nbPost->bindValue('limite', $limite, PDO::PARAM_INT);
         $nbPost->bindValue('debut', $debut, PDO::PARAM_INT);
         $nbPost->execute();

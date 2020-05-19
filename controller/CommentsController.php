@@ -60,7 +60,7 @@ class CommentsController {
         $comment = $this->commentsManager->unreportComment($commentId);
 
         if ($comment === false) {
-            throw new Exception('Impossible de désignaler le commentaire...');
+            throw new Exception('Impossible d\'annuler le signalement du commentaire...');
         } else {
             header('Location: index.php?action=adminPanel');
         }

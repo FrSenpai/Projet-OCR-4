@@ -5,11 +5,7 @@
 <section>
     <div>
         <h3>Bienvenue sur le dashboard !</h3>
-        <ul>
-            <li><a href="index.php?action=adminPostsManagement">Gestion des article</a></li>
-            <li>Gestion des articles</li>
-            <li>Gestion des commentaires</li>
-        </ul>
+        <p><a href="index.php?action=adminPostsManagement">Gestion des articles</a></p>
     </div>
 
 
