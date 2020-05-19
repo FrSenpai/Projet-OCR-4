@@ -11,7 +11,7 @@
     </h3>
 
     <p>
-        <?= htmlspecialchars($postById['content']); ?>
+        <?= $postById['content']; ?>
         <br />
     </p>
     <?php 

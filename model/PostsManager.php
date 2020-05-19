@@ -1,11 +1,18 @@
 <?php 
+
+namespace Projet\model;
+use Projet\model\Post;
+use PDO;
+
 require_once("model/Manager.php");
+
+
 class PostsManager extends Manager {
-    //TODO : Si système d'inscription/connexion, inclure l'auteur (getPosts && viewPostById)
+    
+    //Get a list of all posts
     public function getPosts() {
         $db = $this->dbConnect();
         $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
-
         return $req;
     }
 
@@ -19,11 +26,45 @@ class PostsManager extends Manager {
 
         return $postById;
     }
-    //Add post
+    
+    
+    public function getPostsWithPagination($limite, $debut) {
+        $db = $this->dbConnect();
+        $nbPost = $db->prepare("SELECT * FROM posts ORDER BY creation_date DESC LIMIT :limite OFFSET :debut");
+        $nbPost->bindValue('limite', $limite, PDO::PARAM_INT);
+        $nbPost->bindValue('debut', $debut, PDO::PARAM_INT);
+        $nbPost->execute();
 
+        return $nbPost;
+    }
 
-    //Delete post
+    public function countNbPosts() {
+        $db = $this->dbConnect();
+        $resultFoundRows = $db->query('SELECT COUNT(*) FROM posts');
+        $nbRows = $resultFoundRows->fetchColumn();
+        return $nbRows;
+    }
 
-    //Edit post s
+    public function addPost($title, $content) {
+        $db = $this->dbConnect();
+        $postAdded = $db->prepare("INSERT INTO posts(title, content, creation_date) VALUES(?,?,NOW())");
+        $postAdded->execute(array($title, $content));
 
+        return $postAdded;
+    }   
+
+    public function editPost($postId, $title, $content) {
+        $db = $this->dbConnect();
+        $postEdited = $db->query("UPDATE posts SET title = '$title', content = '$content' WHERE id = '$postId'");
+
+        return $postEdited;
+    }
+
+    public function deletePost($postId) {
+        $db = $this->dbConnect();
+        $deletedPost = $db->query("DELETE FROM posts WHERE id ='$postId'");
+
+        return $deletedPost;
+    }
+ 
 }

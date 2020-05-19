@@ -1,5 +1,6 @@
 <?php
-
+namespace Projet\model;
+use PDO;
 class Manager
 {
     protected function dbConnect()
