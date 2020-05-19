@@ -15,6 +15,9 @@ class AdminController {
     private $postsManager;
     private $comment;
 
+    public function __construct() {
+        $this->user = new User();
+    }
 
     public function viewAdminPanel($limite, $debut) {
         //On a besoin d'afficher une pagination sur les commentaires report

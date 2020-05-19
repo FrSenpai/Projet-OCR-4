@@ -38,41 +38,34 @@ class PostsController {
     public function adminListPosts($limite, $page) {
         $debut = ($page - 1) * $limite;
         
-        $postsManager = new PostsManager();
-        $nbPost = $postsManager->getPostsWithPagination($limite, $debut);
-        $nbElements = $postsManager->countNbPosts();
+        $nbPost = $this->postsManager->getPostsWithPagination($limite, $debut);
+        $nbElements = $this->postsManager->countNbPosts();
         $nombreDePages = ceil($nbElements / $limite);
     
         require('view/backend/postsManagement.php');
     }
 
     public function sendNewPost($title, $content) {
-        $postsManager = new PostsManager();
-        $postsManager->addPost($title, $content);
+        $this->postsManager->addPost($title, $content);
 
         header("Location: index.php?action=adminPanel");
     }
 
     public function editPost($postId) {
-        $postsManager = new PostsManager();
-        $post = $postsManager->viewPostById($postId);
+        $post = $this->postsManager->viewPostById($postId);
 
         require('view/backend/editPost.php');
     }
 
     public function sendEditedPost($postId, $title, $content) {
-        $postsManager = new PostsManager(); 
-        $postsManager->editPost($postId, $title, $content);
+        $this->postsManager->editPost($postId, $title, $content);
 
         header("Location: index.php?action=adminPanel");
     }
 
     public function deletePostAndRelatedComments($postId) {
-        $postsManager = new PostsManager();
-        $postsManager->deletePost($postId);
-
-        $commentsManager = new CommentsManager();
-        $commentsManager->deleteCommentByPostId($postId);
+        $this->postsManager->deletePost($postId);
+        $this->commentsManager->deleteCommentByPostId($postId);
 
         header("Location: index.php?action=adminPanel");
     }
