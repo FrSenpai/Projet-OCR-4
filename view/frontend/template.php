@@ -23,16 +23,17 @@
             <?php 
             if (isset($_SESSION['pseudo'])) {
                 ?>
-                    <div>
-                        <ul>
-                            <li><a href="index.php?action=logout">Deconnexion</a></li>
+                    <div id="containerNav">
+                        <ul id="listeNav">
+                            
                             <?php 
                                 if (isset($_SESSION['isAdmin']) > 0) {
                                     ?>
-                                        <li><a href="index.php?action=adminPanel">Panneau d'administration</a></li>
+                                        <li class="elemNav"><a class="linkNav" href="index.php?action=adminPanel">Panneau d'administration</a></li>
                                     <?php
                                 }
                             ?>
+                            <li class="elemNav"><a class="linkNav" href="index.php?action=logout">Deconnexion</a></li>
                         </ul>
                     </div>
                 <?php 
