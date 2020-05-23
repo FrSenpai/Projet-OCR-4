@@ -1,4 +1,4 @@
-<?php $title = 'PostById'; ?>
+<?php $title = 'Lecture d\'un article'; ?>
 
 <?php ob_start(); ?>
 

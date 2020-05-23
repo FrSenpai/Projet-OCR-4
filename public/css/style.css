@@ -1,7 +1,17 @@
 body {
     margin: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+title {
+    display: none;
+}
+
+label {
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    font-size: 15px;
 }
 
 h3 {
@@ -169,13 +179,13 @@ article {
 
 footer {
     background-color: rgba(0, 0, 0, 0.8);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-radius: 10px;
     color: whitesmoke;
     text-align: center;
-    position: relative;
-    bottom: 0;
-    margin-top: 10px;
+    width: 20%;
+    margin: auto;
+    margin-top: 20px;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
 }
 
 #titlePost {
@@ -264,4 +274,250 @@ footer {
     color: black;
     border-radius: 10px;
     font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+}
+
+#containerRegister {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:  whitesmoke;
+    padding-bottom: 40px;
+    box-shadow: rgba(0, 0, 0, 0.8) 2px 2px 5px;
+}
+
+#formRegister {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+#titleRegister {
+    width: 30%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.inputRegister {
+    width: 75%;
+    text-align: center;
+    margin-bottom: 20px;
+    height:35px;
+    border-radius: 10px;
+}
+
+#sendRegister {
+    width: 20%;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+/* Panel Admin */
+
+#containerTitleDashboard {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%; 
+    margin-bottom: 20px;
+}
+
+#titleDashboard {
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    border-radius: 10px;
+    font-size: 25px;
+    z-index: 2;
+}
+
+#linkPostsManagement {
+    color: black;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    text-align: center;
+    margin-top: -28px;
+    width: 95%;
+    z-index: 1;
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+
+#linkPostsManagement:hover {
+    color: grey;
+}
+
+#containerReportedComment {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    background-color: whitesmoke;
+    width: 70%;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+#containerActionsComment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 50%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+}
+
+
+#titleReportedComment {
+    color: whitesmoke;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    border-bottom: 1px solid whitesmoke;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+}
+
+.containerAffectedComment {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.containerAffectedComment:hover {
+    background-color: rgb(236, 229, 229);
+}
+
+#contentCommentReported {
+    text-align: center;
+}
+
+.linkActionsComment {
+    color: whitesmoke;
+}
+
+.linkActionsComment:hover {
+    color: grey;
+}
+
+.containerPagination {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+
+}
+
+.linkPagination {
+    font-size: 17px;
+    padding:4px;
+    color:black;
+}
+
+#containerStats {
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 80%;
+}
+
+#titleStats {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    font-size: 20px;
+    color: whitesmoke;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    margin-top: 0;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* PanelAdmin : Gestion des articles */
+
+#containerPostsManagement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: auto;
+    background-color: whitesmoke;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-top: 5px;
+
+
+}
+
+#containerListPosts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+#titleListPosts {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 7px;
+    color: whitesmoke;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    margin-top: 0;
+    text-align: center;
+    font-size: 22px;
+    margin-block-end: 0;
+}
+
+#titleReqPost {
+    width: 80%;
+    text-align: center;
+    border-right: 1px black solid;
+}
+
+#linkCreatePost {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: whitesmoke;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#containerEditPost {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: auto;
 }

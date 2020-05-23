@@ -56,11 +56,13 @@
         </nav>
     </header>
 
-    <?= $content ?>
+    <?= $content; ?>
 
 </body>
 
-<footer>@Alexandre Parjouet</footer>
+<footer>
+    <span><a class="linkNav" target="_blank" href="https://www.linkedin.com/in/alexandre-parjouet-b197aa1a1/">@Alexandre Parjouet</a></span>
+</footer>
 
 </html>
 <?php 

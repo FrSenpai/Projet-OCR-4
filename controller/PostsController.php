@@ -46,21 +46,43 @@ class PostsController {
     }
 
     public function sendNewPost($title, $content) {
-        $this->postsManager->addPost($title, $content);
 
-        header("Location: index.php?action=adminPanel");
+        if(strlen($title) > 80) {
+            echo nl2br('<p> Un titre ne doit contenir que 80 caractères. </p>
+                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
+        } elseif (strlen($content) < 20) {
+            echo nl2br('<p> Un post doit contenir au minimum 20 caractères. </p>
+                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
+        } else {
+            $this->postsManager->addPost($title, $content);
+
+            header("Location: index.php?action=adminPanel");
+        }
+
+
+        
     }
 
     public function editPost($postId) {
         $post = $this->postsManager->viewPostById($postId);
+        
 
         require('view/backend/editPost.php');
     }
 
     public function sendEditedPost($postId, $title, $content) {
-        $this->postsManager->editPost($postId, $title, $content);
+        if(strlen($title) > 80) {
+            echo nl2br('<p> Un titre ne doit contenir que 80 caractères. </p>
+                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+        } elseif (strlen($content) < 20) {
+            echo nl2br('<p> Un post doit contenir au minimum 20 caractères. </p>
+                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+        } else {
+            $this->postsManager->editPost($postId, $title, $content);
+            header("Location: index.php?action=adminPanel");
+        }
 
-        header("Location: index.php?action=adminPanel");
+        
     }
 
     public function deletePostAndRelatedComments($postId) {

@@ -1,10 +1,12 @@
+<?php $title = 'Editer un article'; ?>
 <!DOCTYPE html>
-<?= $title = 'Editer un article'; ?>
+
 
 <?php ob_start(); ?>
 
 <section>
-    <div>
+    <div id="containerEditPost">
+        <?php //TODO: Une ligne coloré sur deux || hover sur chaque ligne ?> 
         <h3>Edition d'un article :</h3>
         <form action="index.php?action=sendEditedPost&id= <?= $post['id']; ?>" method="post">
             <input id="postTitle" name="postTitle" value="<?= $post['title']; ?>" type="text">

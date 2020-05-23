@@ -1,5 +1,6 @@
+<?php $title = 'Ajouter un article'; ?>
 <!DOCTYPE html>
-<?= $title = 'Ajouter un article'; ?>
+
 
 <?php ob_start(); ?>
 

@@ -1,49 +1,65 @@
-<?= $title = 'Panel administrateur'; ?>
+<?php $title = 'Panel administrateur'; ?>
 
 <?php ob_start(); ?>
 
 <section>
-    <div>
-        <h3>Bienvenue sur le dashboard !</h3>
-        <p><a href="index.php?action=adminPostsManagement">Gestion des articles</a></p>
+    <div id="containerTitleDashboard">
+        <h3 id="titleDashboard">Bienvenue sur le dashboard !</h3>
+        <a id="linkPostsManagement" href="index.php?action=adminPostsManagement">Gestion des articles</a>
     </div>
 
 
-    <div>
-        <h4>Commentaires signalés :</h4>
+    <div id="containerReportedComment">
+        <h4 id="titleReportedComment">Commentaires signalés :</h4>
         <?php 
             while ($commentsReported = $nbComment->fetch()) {
                 ?>
-                <p><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
-                <a href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le commentaire</a>
-                <a href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir l'utilisateur</a>
-                <a href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le signalement</a>
-                <?php
+        <div class="containerAffectedComment">
+            <p id="contentCommentReported"><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
+            <div id="containerActionsComment">
+                <span><a class="linkActionsComment" href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le
+                        commentaire</a></span>
+                <span><a class="linkActionsComment" href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir
+                        l'utilisateur</a></span>
+                <span><a class="linkActionsComment" href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le
+                        signalement</a></span>
+            </div>
+        </div>
+        <?php
             }
+                ?>
+        <div class="containerPagination">
+            <?php
             if ($page > 1) {
-                ?>
-                <a href="?action=adminPanel&page=<?php echo $page - 1; ?>">Page précédente</a>
-                <?php
-            }
+            ?>
+            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page - 1; ?>">Page précédente</a>
+            <?php
+                    }
 
-            for ($i = 1; $i <=$nombreDeCommentaires; $i++) {
-                ?>
-                <a href="?action=adminPanel&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                <?php
-            }
+                    for ($i = 1; $i <=$nombreDeCommentaires; $i++) {
+                        ?>
+            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+            <?php
+                    }
             
-            if ($page < $nombreDeCommentaires) {
-                ?>
-                <a href="?action=adminPanel&page=<?php echo $page + 1; ?>">Page suivante</a>
-                <?php
-            }
+                    if ($page < $nombreDeCommentaires) {
+                        ?>
+            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page + 1; ?>">Page suivante</a>
+            <?php
+                    }
+                    ?>
+        </div>
+        <?php
 
-            $nbComment->closeCursor();
+                $nbComment->closeCursor();
             
         ?>
     </div>
-    <div>
-        <h4>Statistiques</h4>
+
+    
+
+    <div id="containerStats">
+        <h4 id="titleStats">Statistiques</h4>
         <p>Il y a <?= $nbUsers; ?> utilisateur(s) inscrit(s).</p>
         <p>Le blog recense <?= $nbPosts; ?> article(s) dont <?= $nbComments ?> commentaire(s).</p>
     </div>
