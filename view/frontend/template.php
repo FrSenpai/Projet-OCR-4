@@ -11,7 +11,8 @@
     <script src="https://cdn.tiny.cloud/1/n0zjjp855koo6c45xxa86ptqybm4b9eakycd7lrnyr7nrcd2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script type="text/javascript">
         tinymce.init({
-        selector: '.tinyText'
+        selector: '.tinyText',
+        height: "500px"
         });
     </script>
 </head>

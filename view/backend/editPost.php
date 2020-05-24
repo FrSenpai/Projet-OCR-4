@@ -5,15 +5,16 @@
 <?php ob_start(); ?>
 
 <section>
-    <div id="containerEditPost">
-        <?php //TODO: Une ligne coloré sur deux || hover sur chaque ligne ?> 
-        <h3>Edition d'un article :</h3>
-        <form action="index.php?action=sendEditedPost&id= <?= $post['id']; ?>" method="post">
-            <input id="postTitle" name="postTitle" value="<?= $post['title']; ?>" type="text">
-            <textarea class="tinyText" id="postContent" name="postContent"><?= $post['content']; ?></textarea>
-            <button type="submit">Mettre à jour l'article !</button>
+    <div class="containerEditPost">
+        <h3 class="titleEditPost">Edition d'un article :</h3>
+        <form class="formEditPost" action="index.php?action=sendEditedPost&id= <?= $post['id']; ?>" method="post">
+            <label class="labelEditPost" for="postTitle">Titre :</label>
+            <input class="postEditTitle" name="postTitle" value="<?= $post['title']; ?>" type="text">
+            <label class="labelEditPost" for="postContent">Contenu de l'article : </label>
+            <textarea class="tinyText" id="editPostContent" name="postContent"><?= $post['content']; ?></textarea>
+            <button class="sendEditedPost" type="submit">Mettre à jour l'article !</button>
         </form>
-        <a href="index.php?action=adminPostsManagement">Retour à la liste des articles</a>
+        <a class="linkBackToPostsManagement" href="index.php?action=adminPostsManagement">Retour à la liste des articles</a>
     </div>
     
 </section>

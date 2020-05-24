@@ -501,6 +501,7 @@ footer {
     width: 80%;
     text-align: center;
     border-right: 1px black solid;
+    word-wrap: break-word;
 }
 
 #linkCreatePost {
@@ -513,11 +514,70 @@ footer {
     margin-top: 10px;
 }
 
-#containerEditPost {
+.containerEditPost {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 90%;
     margin: auto;
+}
+
+.titleEditPost {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: whitesmoke;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.formEditPost {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.postEditTitle {
+    width: 30%;
+    margin: auto;
+    height: 25px;
+}
+
+.labelEditPost {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.tox-tinymce {
+    width: 80%;
+}
+
+.sendEditedPost {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    color: whitesmoke;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.linkBackToPostsManagement {
+    font-size: 17px;
+    font-family: 'Oxanium', Arial, Helvetica, sans-serif;
+    border: 1px solid grey;
+    text-align: center;
+    color: whitesmoke;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    width: 20%;
+    margin-top: 10px;
 }
