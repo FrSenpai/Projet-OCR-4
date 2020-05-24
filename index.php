@@ -21,7 +21,7 @@ try {
         if ($_GET['action'] == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $post = new PostsController();
-                $post->viewPostById();
+                $post->viewPostById($_GET['id']);
             }
         } 
         //On veut add un commentaire à un article spécifique

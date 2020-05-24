@@ -42,14 +42,16 @@ class CommentsManager extends Manager {
 
     public function deleteComment($commentId) {
         $db = $this->dbConnect();
-        $comment = $db->query('DELETE FROM comments WHERE id = \''.$commentId.'\'');
+        $comment = $db->prepare('DELETE FROM comments WHERE id = ?');
+        $affectedComment = $comment->execute(array($commentId));
         
-        return $comment;
+        return $affectedComment;
     }
 
     public function deleteCommentByUser($user) {
         $db = $this->dbConnect();
-        $deletedComments = $db->query('DELETE FROM comments WHERE user = \''.$user.'\'');
+        $comments = $db->prepare('DELETE FROM comments WHERE user = ?');
+        $deletedComments = $comments->execute(array($user));
 
         return $deletedComments;
     }
@@ -81,14 +83,15 @@ class CommentsManager extends Manager {
 
     public function deleteCommentByPostId($postId) {
         $db = $this->dbConnect();
-        $deletedComments = $db->query("DELETE FROM comments WHERE post_id ='$postId'");
+        $comments = $db->prepare("DELETE FROM comments WHERE post_id = ?");
+        $deletedComments = $comments->execute(array($postId));
 
         return $deletedComments;
     }
 
     public function unreportComment($commentId) {
         $db = $this->dbConnect();
-        $comment = $db->prepare("UPDATE comments SET reported = 0 WHERE id= '$commentId'");
+        $comment = $db->prepare("UPDATE comments SET reported = 0 WHERE id=?");
         $comment->execute(array($commentId));
 
         return $comment;

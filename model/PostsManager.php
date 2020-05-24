@@ -55,14 +55,16 @@ class PostsManager extends Manager {
 
     public function editPost($postId, $title, $content) {
         $db = $this->dbConnect();
-        $postEdited = $db->query("UPDATE posts SET title = '$title', content = '$content' WHERE id = '$postId'");
+        $post = $db->prepare("UPDATE posts SET title = ?, content = ? WHERE id = ?");
+        $postEdited = $post->execute(array($title, $content, $postId));
 
         return $postEdited;
     }
 
     public function deletePost($postId) {
         $db = $this->dbConnect();
-        $deletedPost = $db->query("DELETE FROM posts WHERE id ='$postId'");
+        $post = $db->prepare("DELETE FROM posts WHERE id =?");
+        $deletedPost = $post->execute(array($postId));
 
         return $deletedPost;
     }

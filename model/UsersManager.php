@@ -3,7 +3,6 @@ namespace Projet\model;
 use Projet\model\Manager;
 
 class UsersManager extends Manager {
-    public $nbUsers;
 
     //Add user
     public function addUser($pseudo, $password) {
@@ -27,14 +26,15 @@ class UsersManager extends Manager {
     public function countUsers() {
         $db = $this->dbConnect();
         $users = $db->query('SELECT COUNT(*) FROM users');
-        $this->_nbUsers = $users->fetchColumn();
-        return $this->_nbUsers;
+        $nbUsers = $users->fetchColumn();
+        return $nbUsers;
     }
 
     //Delete user
     public function deleteUserByPseudo($pseudo) {
         $db = $this->dbConnect();
-        $user = $db->query('DELETE FROM users WHERE pseudo=\''.$pseudo.'\'');
-        return $user;
+        $user = $db->prepare('DELETE FROM users WHERE pseudo= ?');
+        $affectedUser = $user->execute(array($pseudo));
+        return $affectedUser;
     }
 }

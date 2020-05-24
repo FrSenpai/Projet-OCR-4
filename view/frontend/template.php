@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
+    <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" type="text/css" href="public/css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Oxanium:200&display=swap" rel="stylesheet">
     <script src="https://cdn.tiny.cloud/1/n0zjjp855koo6c45xxa86ptqybm4b9eakycd7lrnyr7nrcd2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>

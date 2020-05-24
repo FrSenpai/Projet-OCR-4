@@ -16,7 +16,6 @@ class PostsController {
     private $post;
     private $commentsManager;
 
-    //TODO : Corriger les $managers afin de ne pas dupliquer le code
     public function __construct() {
         $this->postsManager = new PostsManager();
         $this->post = new Post();
@@ -27,12 +26,18 @@ class PostsController {
         $posts = $this->postsManager->getPosts();
         require('view/frontend/homeView.php');
     }
-    //TODO : Prendre en param le $postId
-    public function viewPostById() {
-        $postById = $this->postsManager->viewPostById($_GET['id']);
-        $comments = $this->commentsManager->getComments($_GET['id']);
+
+    public function viewPostById($postId) {
+        $postById = $this->postsManager->viewPostById($postId);
+        $comments = $this->commentsManager->getComments($postId);
+
+        if ($comments === false || $postById === false) {
+            echo nl2br('<p>Le contenu demandé ne semble pas être disponible.</p>');
+        } else {
+            require('view/frontend/postById.php');
+        }
     
-        require('view/frontend/postById.php');
+        
     }
 
     public function adminListPosts($limite, $page) {

@@ -19,7 +19,7 @@ private $user;
 
     public function __construct() {
         $this->postsManager = new PostsManager();
-        $this->commentsManager = new CommentsManager(); //Voir si vraiment utile à un moment
+        $this->commentsManager = new CommentsManager();
         $this->usersManager = new UsersManager();
         $this->user = new User();
     }
