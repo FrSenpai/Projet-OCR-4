@@ -54,7 +54,7 @@
                 le <?= $comment['comment_date_fr'] ?> - 
                 <a class="linkReport" href="index.php?action=reportComment&amp;commentId=<?= $comment['id'] ?>&amp;postId=<?= $postById['id']; ?>">Signaler</a>
             </p>
-            <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+            <p id="commentContent"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
         <?php
         }
         ?>

@@ -83,7 +83,7 @@ try {
             $user->logout();
         }
 
-        // /!\ Partie administration /!\ TODO : Revoir la vérification si admin --> ...
+        // /!\ Partie administration /!\ 
         if (isset($_SESSION['isAdmin'])) {
             if ($_GET['action'] == 'adminPanel') {
                 if (!empty($_GET['page'])) {

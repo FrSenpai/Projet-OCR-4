@@ -23,8 +23,6 @@ class CommentsManager extends Manager {
         return $affectedLines;
     }
 
-    //TODO : Bloquer à une fois le nombre de like/com (liaison table user/com IMPERATIF)
-
     public function reportComment($commentId) {
         $db = $this->dbConnect();
         $reportedComment = $db->prepare('UPDATE comments SET reported = 1 WHERE id = ?');
