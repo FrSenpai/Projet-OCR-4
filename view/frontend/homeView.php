@@ -5,11 +5,12 @@
 <div id='containerDescriptionAuthor'>
     <figure>
         <img src="public/images/alain-laroche-fictif" alt="Avatar Alain Laroche" id="avatarAuthor">
-    </figure>
-    <figcaption>
-        <p id='descriptionAuthor'>Erat gratulatio antea decrevi Mario idem quot ex hominis est et immortalibus antea
+        <figcaption>
+            <p id='descriptionAuthor'>Erat gratulatio antea decrevi Mario idem quot ex hominis est et immortalibus antea
             admirentur C homines meum.</p>
-    </figcaption>
+        </figcaption>
+    </figure>
+    
 </div>
 
 <section id="sectionArticles">
@@ -17,10 +18,9 @@
     <?php 
 while ($data = $posts->fetch()) {
 ?>
-    <a href='index.php?action=post&amp;id=<?= $data['id'] ?>'>
         <article>
             <div id='divTitlePosts'>
-                <h3><?= htmlspecialchars($data['title']); ?></h3></a>
+                <h3><a href='index.php?action=post&amp;id=<?= $data['id']; ?>'><?= htmlspecialchars($data['title']); ?></a></h3>
                 <p>: le <?= $data['creation_date_fr'] ?></p>
             </div>
             

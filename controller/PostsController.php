@@ -52,16 +52,18 @@ class PostsController {
 
     public function sendNewPost($title, $content) {
 
-        if(strlen($title) > 80) {
-            echo nl2br('<p> Un titre ne doit contenir que 80 caractères. </p>
-                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
-        } elseif (strlen($content) < 20) {
-            echo nl2br('<p> Un post doit contenir au minimum 20 caractères. </p>
+        if(strlen($title) > 80 || strlen($title) < 5 || strlen($content) < 20) {
+            echo nl2br('<p> Un titre doit contenir au minimum 5 caractères et au maximum 80 caractères.</p>
+                    <p>Le contenu de l\'article doit contenir au minimum 20 caractères.</p>
                     <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
         } else {
-            $this->postsManager->addPost($title, $content);
-
-            header("Location: index.php?action=adminPanel");
+            $addPost = $this->postsManager->addPost($title, $content);
+            if ($addPost === false) {
+                echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
+            } else {
+                header("Location: index.php?action=adminPostsManagement");
+            }
+            
         }
 
 
@@ -71,8 +73,13 @@ class PostsController {
     public function editPost($postId) {
         $post = $this->postsManager->viewPostById($postId);
         
+        if ($post === false) {
+            echo nl2br('<p>Il semble y avoir eu un problème lors de l\'édition de l\'article. </p>');
+        } else {
+            require('view/backend/editPost.php');
+        }
 
-        require('view/backend/editPost.php');
+        
     }
 
     public function sendEditedPost($postId, $title, $content) {
@@ -83,18 +90,28 @@ class PostsController {
             echo nl2br('<p> Un post doit contenir au minimum 20 caractères. </p>
                     <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
         } else {
-            $this->postsManager->editPost($postId, $title, $content);
-            header("Location: index.php?action=adminPanel");
+            $sendPost = $this->postsManager->editPost($postId, $title, $content);
+
+            if ($sendPost === false) {
+                echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
+            } else {
+                header("Location: index.php?action=adminPanel");
+            }
+            
         }
 
         
     }
 
     public function deletePostAndRelatedComments($postId) {
-        $this->postsManager->deletePost($postId);
-        $this->commentsManager->deleteCommentByPostId($postId);
+        $deletePost = $this->postsManager->deletePost($postId);
+        $deleteComment = $this->commentsManager->deleteCommentByPostId($postId);
 
-        header("Location: index.php?action=adminPanel");
+        if ($deletePost === false || $deleteComment === false) {
+            echo nl2br('<p>Il semble y avoir eu un problème lors de la suppression de l\'article.</p>');
+        } else {
+            header("Location: index.php?action=adminPostsManagement");
+        }
     }
 
 
