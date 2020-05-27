@@ -37,7 +37,7 @@
     <?php 
     while ($comment = $comments->fetch()) {
         ?>
-    <div id="containerComment">
+    <div class="containerComment">
         <?php 
         //Si le commentaire a été signalé, on affiche un message en conséquence
         if ($comment['reported'] > 0) {
@@ -54,7 +54,7 @@
                 le <?= $comment['comment_date_fr'] ?> - 
                 <a class="linkReport" href="index.php?action=reportComment&amp;commentId=<?= $comment['id'] ?>&amp;postId=<?= $postById['id']; ?>">Signaler</a>
             </p>
-            <p id="commentContent"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+            <p class="commentContent"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
         <?php
         }
         ?>
