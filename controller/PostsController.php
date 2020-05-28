@@ -1,9 +1,11 @@
 <?php 
 
 namespace Projet\controller;
+
 require_once('model/PostsManager.php');
 require_once('model/Post.php');
 
+//TODO : Page "tous les articles" (prendre template homeview)
 
 use Projet\model\{
     PostsManager,
@@ -41,33 +43,25 @@ class PostsController {
     }
 
     public function adminListPosts($limite, $page) {
-        $debut = ($page - 1) * $limite;
-        
-        $nbPost = $this->postsManager->getPostsWithPagination($limite, $debut);
         $nbElements = $this->postsManager->countNbPosts();
         $nombreDePages = ceil($nbElements / $limite);
-    
-        require('view/backend/postsManagement.php');
+        //On vérifie que l'utilisateur n'essaye pas de rentrer une valeur supérieure au nombre de page
+        if ($page <= $nombreDePages) {
+            $debut = ($page - 1) * $limite;
+            $nbPost = $this->postsManager->getPostsWithPagination($limite, $debut);
+            require('view/backend/postsManagement.php');
+        } else {
+            echo nl2br('<p>Il semble que le numéro de page demandé n\'existe pas...');
+        }
     }
 
     public function sendNewPost($title, $content) {
-
-        if(strlen($title) > 80 || strlen($title) < 5 || strlen($content) < 20) {
-            echo nl2br('<p> Un titre doit contenir au minimum 5 caractères et au maximum 80 caractères.</p>
-                    <p>Le contenu de l\'article doit contenir au minimum 20 caractères.</p>
-                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
-        } else {
             $addPost = $this->postsManager->addPost($title, $content);
             if ($addPost === false) {
                 echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
             } else {
                 header("Location: index.php?action=adminPostsManagement");
             }
-            
-        }
-
-
-        
     }
 
     public function editPost($postId) {
@@ -83,24 +77,13 @@ class PostsController {
     }
 
     public function sendEditedPost($postId, $title, $content) {
-        if(strlen($title) > 80) {
-            echo nl2br('<p> Un titre ne doit contenir que 80 caractères. </p>
-                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
-        } elseif (strlen($content) < 20) {
-            echo nl2br('<p> Un post doit contenir au minimum 20 caractères. </p>
-                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
-        } else {
             $sendPost = $this->postsManager->editPost($postId, $title, $content);
 
             if ($sendPost === false) {
                 echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
             } else {
                 header("Location: index.php?action=adminPanel");
-            }
-            
-        }
-
-        
+            } 
     }
 
     public function deletePostAndRelatedComments($postId) {

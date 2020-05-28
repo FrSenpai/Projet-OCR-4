@@ -58,6 +58,7 @@ class CommentsManager extends Manager {
         $db = $this->dbConnect();
         $comment = $db->query('SELECT COUNT(*) FROM comments WHERE reported = 1');
         $nbRows = $comment->fetchColumn();
+
         return $nbRows;
     }
 

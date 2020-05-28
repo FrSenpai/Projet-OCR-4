@@ -61,7 +61,15 @@
 
         </nav>
     </header>
-
+    <?php 
+        if (isset($_SESSION['errorMsg'])) {
+            ?>
+            <div>
+                <p><?= $_SESSION['errorMsg']; ?></p>
+            </div>
+            <?php
+        }
+    ?>
     <?= $content; ?>
     <footer>
         <span><a class="linkNav" target="_blank"

@@ -12,21 +12,31 @@
     <div id="containerReportedComment">
         <h4 id="titleReportedComment">Commentaires signalés :</h4>
         <?php 
-            while ($commentsReported = $nbComment->fetch()) {
+            if (!$nombreDeCommentaires > 0) {
                 ?>
-        <div class="containerAffectedComment">
-            <p id="contentCommentReported"><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
-            <div id="containerActionsComment">
-                <span><a class="linkActionsComment" href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le
-                        commentaire</a></span>
-                <span><a class="linkActionsComment" href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir
-                        l'utilisateur</a></span>
-                <span><a class="linkActionsComment" href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le
-                        signalement</a></span>
-            </div>
-        </div>
+        <p>Il n'y a aucun commentaire signalé actuellement.</p>
         <?php
-            }
+            } else {
+                while ($commentsReported = $nbComment->fetch()) {
+                ?>
+                    <div class="containerAffectedComment">
+                        <p id="contentCommentReported"><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
+                            <div id="containerActionsComment">
+                                <span><a class="linkActionsComment"
+                                        href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le
+                                        commentaire</a></span>
+                                <span><a class="linkActionsComment"
+                                        href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir
+                                        l'utilisateur</a></span>
+                                <span><a class="linkActionsComment"
+                                        href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le
+                                        signalement</a></span>
+                            </div>
+                    </div>
+                <?php
+                    }
+                }
+            
                 ?>
         <div class="containerPagination">
             <?php
@@ -56,7 +66,7 @@
         ?>
     </div>
 
-    
+
 
     <div id="containerStats">
         <h4 id="titleStats">Statistiques</h4>

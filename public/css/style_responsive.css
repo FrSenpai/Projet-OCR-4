@@ -109,5 +109,9 @@
         width: 100%;
     }
 
+    .errorMsg {
+        margin: auto;
+    }
+
     
 }

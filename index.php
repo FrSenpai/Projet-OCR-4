@@ -11,6 +11,8 @@ use Projet\controller\{
     AdminController
 };
 
+
+//TODO : Assigner postid quand retour en arrière lors d'une erreur
 session_start();
 
 try {
@@ -22,19 +24,30 @@ try {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $post = new PostsController();
                 $post->viewPostById($_GET['id']);
+            } else {
+                throw new Exception('Il semble y avoir eu un problème lors de l\'affichage de l\'article.
+                <a href="index.php"> Revenir en arrière ? </a>');
             }
         } 
         //On veut add un commentaire à un article spécifique
         if ($_GET['action'] == 'addComment') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
                 if (!empty($_SESSION['pseudo']) && !empty($_POST['content'])) {
-                    $comment = new CommentsController();
-                    $comment->addComment($_GET['postId'], $_SESSION['pseudo'], $_POST['content']);
+                    if(strlen($_POST['content']) > 5) {
+                        $comment = new CommentsController();
+                        $comment->addComment($_GET['postId'], $_SESSION['pseudo'], $_POST['content']);
+                    } else {
+                        throw new Exception('Un commentaire doit contenir au minimum 5 caractères.
+                        <a href="index.php?action=post&id='.$_GET['postId'].'"> Revenir en arrière ? </a>');
+                    }
+                    
                 } else {
-                    throw new Exception('<p>Il semble y avoir eu un problème lors de l\'ajout du commentaire.</p>');
+                    throw new Exception('Il semble y avoir eu un problème lors de l\'ajout du commentaire.
+                    <a href="index.php?action=post&id='.$_GET['postId'].'"> Revenir en arrière ? </a>');
                 }
             } else {
-                throw new Exception('<p>Il semble y avoir eu un problème lors de l\'ajout du commentaire.</p>');
+                throw new Exception('Il semble y avoir eu un problème lors de l\'ajout du commentaire.
+                <a href="index.php?action=post&id='.$_GET['postId'].'"> Revenir en arrière ? </a>');
             }
         }
         //Signalement d'un commentaire
@@ -43,7 +56,8 @@ try {
                 $comment = new CommentsController();
                 $comment->reportComment($_GET['commentId'], $_GET['postId']);
             } else {
-                throw new Exception('<p>Il semble y avoir eu un problème lors du signalement du commentaire.</p>');
+                throw new Exception('Il semble y avoir eu un problème lors du signalement du commentaire.
+                <a href="index.php"> Revenir en arrière ? </a>');
             }
         }
         //On affiche la page d'inscription
@@ -60,13 +74,16 @@ try {
                         $user = new UsersController();
                         $user->addUser($_POST['pseudo'], $_POST['password']);
                     } else {
-                        throw new Exception('<p>Le format du mot de passe est incorrect.</p>');
+                        throw new Exception('Le format du mot de passe est incorrect.
+                        <a href="index.php?action=register"> Revenir en arrière ? </a>');
                     }
                 } else {
-                    throw new Exception('<p>Le format du pseudo est incorrect.</p>');
+                    throw new Exception('Le format du pseudo est incorrect.
+                    <a href="index.php?action=register"> Revenir en arrière ? </a>');
                 }
             } else {
-                throw new Exception('<p>Vous devez remplir les champs.</p>');
+                throw new Exception('Vous devez remplir les champs.
+                <a href="index.php?action=register"> Revenir en arrière ? </a>');
             }
             
         }
@@ -76,7 +93,8 @@ try {
                 $user = new UsersController();
                 $user->login($_POST['pseudo'], $_POST['password']);
             } else {
-                throw new Exception('<p>Les champs ne peuvent pas être vide.</p>');
+                throw new Exception('Les champs de connexion ne peuvent pas être vide.
+                <a href="index.php"> Revenir en arrière ? </a>');
             }
         } 
         //On se déconnecte
@@ -87,6 +105,7 @@ try {
 
         // /!\ Partie administration /!\ 
         if (isset($_SESSION['isAdmin'])) {
+
             if ($_GET['action'] == 'adminPanel') {
                 if (!empty($_GET['page'])) {
                     $admin = new AdminController();
@@ -95,18 +114,19 @@ try {
                     $admin = new AdminController();
                     $admin->viewAdminPanel(5, 1);
                 }
-                
             }
+
             //Bannir un utilisateur
             if ($_GET['action'] == 'banUser') {
                 if (!empty($_GET['pseudo'])) {
                     $user = new UsersController();
                     $user->banUser($_GET['pseudo']);
                 } else {
-                    throw new Exception('<p>Il semble y avoir eu un problème lors de la tentative de bannissement de l\'utilisateur.</p>');
+                    throw new Exception('Il semble y avoir eu un problème lors de la tentative de bannissement de l\'utilisateur.
+                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
                 }
-                
             }
+
             // Gestion des articles
             if ($_GET['action'] == 'adminPostsManagement') {
                 $posts = new PostsController();
@@ -123,7 +143,8 @@ try {
                     $comments = new CommentsController();
                     $comments->deleteComment($_GET['commentId']);
                 } else {
-                    throw new Exception('<p>Il semble y avoir eu un problème lors de la suppression du commentaire.</p>');
+                    throw new Exception('Il semble y avoir eu un problème lors de la suppression du commentaire.
+                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
                 }
                 
             }
@@ -135,10 +156,21 @@ try {
             //Envoie des données d'un nouvel article
             if ($_GET['action'] == 'sendNewPost') {
                 if (!empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
-                    $posts = new PostsController();
-                    $posts->sendNewPost($_POST['postTitle'] ,$_POST['postContent'] );
+                    if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
+                        if (strlen(strip_tags($_POST['postContent'])) >= 10) {
+                            $posts = new PostsController();
+                            $posts->sendNewPost($_POST['postTitle'],$_POST['postContent']);
+                        } else {
+                            throw new Exception('Un article doit au minimum contenir 10 caractères.
+                            <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                        }
+                    } else {
+                        throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
+                            <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                    }
+                    
                 } else {
-                    throw new Exception('<p>Vous ne pouvez pas ajouter un nouvel article vide.</p>
+                    throw new Exception('Vous ne pouvez pas ajouter un nouvel article vide.
                     <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
                 }
                 
@@ -153,11 +185,22 @@ try {
             //Envoie des données de l'article édité
             if ($_GET['action'] == 'sendEditedPost') {
                 if (!empty($_GET['id']) && !empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
-                    $posts = new PostsController();
-                    $posts->sendEditedPost($_GET['id'], addslashes($_POST['postTitle']) , addslashes($_POST['postContent']));
+                    if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
+                        if (strlen(strip_tags($_POST['postContent'])) >= 10) {
+                            $posts = new PostsController();
+                            $posts->sendEditedPost($_GET['id'], addslashes($_POST['postTitle']) , addslashes($_POST['postContent']));
+                        } else {
+                            throw new Exception('Un article doit au minimum contenir 10 caractères.
+                            <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
+                        }
+                    } else {
+                        throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
+                            <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
+                    }
+                    
                 } else {
-                    throw new Exception('<p>Vous ne pouvez pas modifier l\'article en le rendant vide.</p>
-                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas modifier l\'article en le rendant vide.
+                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
                 }
                 
             }
@@ -167,7 +210,8 @@ try {
                     $posts = new PostsController();
                     $posts->deletePostAndRelatedComments($_GET['id']);
                 } else {
-                    throw new Exception('<p>Il semble y avoir eu un problème lors de la suppression de l\'article.</p>');
+                    throw new Exception('Il semble y avoir eu un problème lors de la suppression de l\'article.
+                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
                 }
                 
             }
@@ -177,9 +221,13 @@ try {
                     $commentsManager = new CommentsController();
                     $commentsManager->unreportComment($_GET['id']);
                 } else {
-                    throw new Exception('<p>Il semble y avoir eu un problème lors de l\'annulation du signalement sur le commentaire</p>');
+                    throw new Exception('Il semble y avoir eu un problème lors de l\'annulation du signalement sur le commentaire.
+                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
                 }
             }
+        } else {
+            throw new Exception('Vous ne pouvez pas accéder à cette partie du site.
+            <a href="index.php"> Revenir en arrière ? </a>');
         }
     } else {
         $posts = new PostsController();
@@ -188,5 +236,5 @@ try {
     
 }
 catch(Exception $e) {
-    echo 'Erreur : ' . $e->getMessage();
+    echo '<p style="font-size:35px;text-align:center;">Erreur : ' . $e->getMessage() . '</p>';
 }
