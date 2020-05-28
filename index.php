@@ -104,131 +104,179 @@ try {
         }
 
         // /!\ Partie administration /!\ 
-        if (isset($_SESSION['isAdmin'])) {
-
             if ($_GET['action'] == 'adminPanel') {
-                if (!empty($_GET['page'])) {
-                    $admin = new AdminController();
-                    $admin->viewAdminPanel(5, $_GET['page']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['page'])) {
+                        $admin = new AdminController();
+                        $admin->viewAdminPanel(5, $_GET['page']);
+                    } else {
+                        $admin = new AdminController();
+                        $admin->viewAdminPanel(5, 1);
+                    }
                 } else {
-                    $admin = new AdminController();
-                    $admin->viewAdminPanel(5, 1);
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                    <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
             }
 
             //Bannir un utilisateur
             if ($_GET['action'] == 'banUser') {
-                if (!empty($_GET['pseudo'])) {
-                    $user = new UsersController();
-                    $user->banUser($_GET['pseudo']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['pseudo'])) {
+                        $user = new UsersController();
+                        $user->banUser($_GET['pseudo']);
+                    } else {
+                        throw new Exception('Il semble y avoir eu un problème lors de la tentative de bannissement de l\'utilisateur.
+                        <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
+                    }
                 } else {
-                    throw new Exception('Il semble y avoir eu un problème lors de la tentative de bannissement de l\'utilisateur.
-                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                    <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
             }
 
             // Gestion des articles
             if ($_GET['action'] == 'adminPostsManagement') {
-                $posts = new PostsController();
-                if (!empty($_GET['page'])) {
-                    $posts->adminListPosts(5, $_GET['page']);
+                if (isset($_SESSION['isAdmin'])) {
+                    $posts = new PostsController();
+                    if (!empty($_GET['page'])) {
+                        $posts->adminListPosts(5, $_GET['page']);
+                    } else {
+                        $posts->adminListPosts(5, 1);
+                    }
                 } else {
-                    $posts->adminListPosts(5, 1);
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
+                
             }
 
             //Suppression d'un commentaire
             if ($_GET['action'] == 'deleteComment') {
-                if (!empty($_GET['commentId']) && $_GET['commentId'] > 0) {
-                    $comments = new CommentsController();
-                    $comments->deleteComment($_GET['commentId']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['commentId']) && $_GET['commentId'] > 0) {
+                        $comments = new CommentsController();
+                        $comments->deleteComment($_GET['commentId']);
+                    } else {
+                        throw new Exception('Il semble y avoir eu un problème lors de la suppression du commentaire.
+                        <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
+                    }
                 } else {
-                    throw new Exception('Il semble y avoir eu un problème lors de la suppression du commentaire.
-                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
+                
                 
             }
             //Page de création d'un article
             if ($_GET['action'] == 'addPost') {
-                $admin = new AdminController();
-                $admin->viewAddPost();
+                if (isset($_SESSION['isAdmin'])) {
+                    $admin = new AdminController();
+                    $admin->viewAddPost();
+                } else {
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
+                }
+                
             }
             //Envoie des données d'un nouvel article
             if ($_GET['action'] == 'sendNewPost') {
-                if (!empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
-                    if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
-                        if (strlen(strip_tags($_POST['postContent'])) >= 10) {
-                            $posts = new PostsController();
-                            $posts->sendNewPost($_POST['postTitle'],$_POST['postContent']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
+                        if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
+                            if (strlen(strip_tags($_POST['postContent'])) >= 10) {
+                                $posts = new PostsController();
+                                $posts->sendNewPost($_POST['postTitle'],$_POST['postContent']);
+                            } else {
+                                throw new Exception('Un article doit au minimum contenir 10 caractères.
+                                <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                            }
                         } else {
-                            throw new Exception('Un article doit au minimum contenir 10 caractères.
-                            <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
-                        }
+                            throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
+                                <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                        }  
                     } else {
-                        throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
-                            <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                        throw new Exception('Vous ne pouvez pas ajouter un nouvel article vide.
+                        <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
                     }
-                    
                 } else {
-                    throw new Exception('Vous ne pouvez pas ajouter un nouvel article vide.
-                    <a href="index.php?action=addPost"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
-                
             }
             //Page d'édition d'un article
             if ($_GET['action'] == 'editPost') {
-                if (isset($_GET['id']) && $_GET['id'] > 0) {
-                    $posts = new PostsController();
-                    $posts->editPost($_GET['id']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (isset($_GET['id']) && $_GET['id'] > 0) {
+                        $posts = new PostsController();
+                        $posts->editPost($_GET['id']);
+                    }
+                } else {
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
+                
             }
             //Envoie des données de l'article édité
             if ($_GET['action'] == 'sendEditedPost') {
-                if (!empty($_GET['id']) && !empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
-                    if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
-                        if (strlen(strip_tags($_POST['postContent'])) >= 10) {
-                            $posts = new PostsController();
-                            $posts->sendEditedPost($_GET['id'], addslashes($_POST['postTitle']) , addslashes($_POST['postContent']));
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['id']) && !empty($_POST['postTitle']) && !empty($_POST['postContent'])) {
+                        if (strlen($_POST['postTitle']) >= 5 && strlen($_POST['postTitle']) < 255) {
+                            if (strlen(strip_tags($_POST['postContent'])) >= 10) {
+                                $posts = new PostsController();
+                                $posts->sendEditedPost($_GET['id'], addslashes($_POST['postTitle']) , addslashes($_POST['postContent']));
+                            } else {
+                                throw new Exception('Un article doit au minimum contenir 10 caractères.
+                                <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
+                            }
                         } else {
-                            throw new Exception('Un article doit au minimum contenir 10 caractères.
-                            <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
+                            throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
+                                <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
                         }
-                    } else {
-                        throw new Exception('Un titre doit au minimum contenir 5 caractères et au maximum 255 caractères.
-                            <a href="index.php?action=editPost&id='.$_GET['id'].'"> Revenir en arrière ? </a>');
-                    }
                     
+                    } else {
+                        throw new Exception('Vous ne pouvez pas modifier l\'article en le rendant vide.
+                        <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                    }
                 } else {
-                    throw new Exception('Vous ne pouvez pas modifier l\'article en le rendant vide.
-                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
-                
             }
+
             //Suppression d'un article
             if ($_GET['action'] == 'deletePost') {
-                if (!empty($_GET['id']) && $_GET['id'] > 0) {
-                    $posts = new PostsController();
-                    $posts->deletePostAndRelatedComments($_GET['id']);
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['id']) && $_GET['id'] > 0) {
+                        $posts = new PostsController();
+                        $posts->deletePostAndRelatedComments($_GET['id']);
+                    } else {
+                        throw new Exception('Il semble y avoir eu un problème lors de la suppression de l\'article.
+                        <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                    }
                 } else {
-                    throw new Exception('Il semble y avoir eu un problème lors de la suppression de l\'article.
-                    <a href="index.php?action=adminPostsManagement"> Revenir en arrière ? </a>');
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
+                }
+            }
+
+            //Annulation d'un signalement sur un commentaire
+            if ($_GET['action'] == 'unreportComment') {
+                if (isset($_SESSION['isAdmin'])) {
+                    if (!empty($_GET['id']) && $_GET['id'] > 0) {
+                        $commentsManager = new CommentsController();
+                        $commentsManager->unreportComment($_GET['id']);
+                    } else {
+                        throw new Exception('Il semble y avoir eu un problème lors de l\'annulation du signalement sur le commentaire.
+                        <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
+                    }
+                } else {
+                    throw new Exception('Vous ne pouvez pas accéder à cette partie du site car vous n\'êtes pas un administrateur.
+                        <a href="index.php"> Revenir à l\'accueil ? </a>');
                 }
                 
             }
-            //Annulation d'un signalement sur un commentaire
-            if ($_GET['action'] == 'unreportComment') {
-                if (!empty($_GET['id']) && $_GET['id'] > 0) {
-                    $commentsManager = new CommentsController();
-                    $commentsManager->unreportComment($_GET['id']);
-                } else {
-                    throw new Exception('Il semble y avoir eu un problème lors de l\'annulation du signalement sur le commentaire.
-                    <a href="index.php?action=adminPanel"> Revenir en arrière ? </a>');
-                }
-            }
-        } else {
-            throw new Exception('Vous ne pouvez pas accéder à cette partie du site.
-            <a href="index.php"> Revenir en arrière ? </a>');
-        }
+        
     } else {
         $posts = new PostsController();
         $posts->listPosts();
