@@ -7,26 +7,26 @@ use PDO;
 
 class CommentsManager extends Manager {
 
-    public function getComments($postId) {
+    public function getComments($post) {
         $db = $this->dbConnect();
         $comments = $db->prepare('SELECT id, user, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr, reported  FROM comments WHERE post_id = ? ORDER BY creation_date DESC');
-        $comments->execute(array($postId));
+        $comments->execute(array($post->getId()));
 
         return $comments;
     }
 
-    public function addComment($postId, $user, $content) {
+    public function addComment($comment) {
         $db = $this->dbConnect();
-        $comment = $db->prepare('INSERT INTO comments(post_id, user, content, creation_date, reported) VALUES(?,?,?,NOW(), 0)');
-        $affectedLines = $comment->execute(array($postId, $user, $content));
+        $req = $db->prepare('INSERT INTO comments(post_id, user, content, creation_date, reported) VALUES(?,?,?,NOW(), 0)');
+        $affectedLines = $req->execute(array($comment->getPostId(), $comment->getUser(), $comment->getContent()));
 
         return $affectedLines;
     }
 
-    public function reportComment($commentId) {
+    public function reportComment($comment) {
         $db = $this->dbConnect();
         $reportedComment = $db->prepare('UPDATE comments SET reported = 1 WHERE id = ?');
-        $affectedComment = $reportedComment->execute(array($commentId));
+        $affectedComment = $reportedComment->execute(array($comment->getId()));
 
         return $affectedComment;
     }
@@ -38,10 +38,10 @@ class CommentsManager extends Manager {
         return $comments;
     }
 
-    public function deleteComment($commentId) {
+    public function deleteComment($comment) {
         $db = $this->dbConnect();
-        $comment = $db->prepare('DELETE FROM comments WHERE id = ?');
-        $affectedComment = $comment->execute(array($commentId));
+        $req = $db->prepare('DELETE FROM comments WHERE id = ?');
+        $affectedComment = $req->execute(array($comment->getId()));
         
         return $affectedComment;
     }
@@ -49,7 +49,7 @@ class CommentsManager extends Manager {
     public function deleteCommentByUser($user) {
         $db = $this->dbConnect();
         $comments = $db->prepare('DELETE FROM comments WHERE user = ?');
-        $deletedComments = $comments->execute(array($user));
+        $deletedComments = $comments->execute(array($user->getPseudo()));
 
         return $deletedComments;
     }
@@ -80,19 +80,19 @@ class CommentsManager extends Manager {
         return $nbRows;
     }
 
-    public function deleteCommentByPostId($postId) {
+    public function deleteCommentByPostId($post) {
         $db = $this->dbConnect();
         $comments = $db->prepare("DELETE FROM comments WHERE post_id = ?");
-        $deletedComments = $comments->execute(array($postId));
+        $deletedComments = $comments->execute(array($post->getId()));
 
         return $deletedComments;
     }
 
-    public function unreportComment($commentId) {
+    public function unreportComment($comment) {
         $db = $this->dbConnect();
-        $comment = $db->prepare("UPDATE comments SET reported = 0 WHERE id=?");
-        $comment->execute(array($commentId));
+        $req = $db->prepare("UPDATE comments SET reported = 0 WHERE id=?");
+        $affectedComment = $req->execute(array($comment->getId()));
 
-        return $comment;
+        return $affectedComment;
     }
 }

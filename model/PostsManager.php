@@ -12,15 +12,15 @@ class PostsManager extends Manager {
     //Get a list of all posts
     public function getPosts() {
         $db = $this->dbConnect();
-        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
+        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC');
         return $req;
     }
 
     //Recup un post via son id
-    public function viewPostById($postId) {
+    public function viewPostById($post) {
         $db = $this->dbConnect();
         $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts WHERE id = ?');
-        $req->execute(array($postId));
+        $req->execute(array($post->getId()));
 
         $postById = $req->fetch();
 
@@ -45,26 +45,26 @@ class PostsManager extends Manager {
         return $nbRows;
     }
 
-    public function addPost($title, $content) {
+    public function addPost($post) {
         $db = $this->dbConnect();
         $postAdded = $db->prepare("INSERT INTO posts(title, content, creation_date) VALUES(?,?,NOW())");
-        $postAdded->execute(array($title, $content));
+        $postAdded->execute(array($post->getTitle(), $post->getContent()));
 
         return $postAdded;
     }   
 
-    public function editPost($postId, $title, $content) {
+    public function editPost($post) {
         $db = $this->dbConnect();
-        $post = $db->prepare("UPDATE posts SET title = ?, content = ? WHERE id = ?");
-        $postEdited = $post->execute(array($title, $content, $postId));
+        $req = $db->prepare("UPDATE posts SET title = ?, content = ? WHERE id = ?");
+        $postEdited = $req->execute(array($post->getTitle(), $post->getContent(), $post->getId()));
 
         return $postEdited;
     }
 
-    public function deletePost($postId) {
+    public function deletePost($post) {
         $db = $this->dbConnect();
-        $post = $db->prepare("DELETE FROM posts WHERE id =?");
-        $deletedPost = $post->execute(array($postId));
+        $req = $db->prepare("DELETE FROM posts WHERE id =?");
+        $deletedPost = $req->execute(array($post->getId()));
 
         return $deletedPost;
     }

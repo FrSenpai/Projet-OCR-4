@@ -27,10 +27,14 @@ private $user;
     public function addUser($pseudo, $password) {
         
         $passwordHash = hash('sha256', $password);
+        $this->user->setPseudo($pseudo);
         //On vérifie qu'un pseudo similaire ne soit pas déjà existant
-        $verifyUser = $this->usersManager->getUserByPseudo($pseudo);
+        $verifyUser = $this->usersManager->getUserByPseudo($this->user);
+
         if ($verifyUser === false) {
-            $addUser = $this->usersManager->addUser($pseudo, $passwordHash);
+            $this->user->setPass($passwordHash);
+
+            $addUser = $this->usersManager->addUser($this->user);
 
             if ($addUser === false) {
                 echo nl2br('<p> Impossible d\'ajouter l\'utilisateur... </p>
@@ -45,15 +49,13 @@ private $user;
            echo nl2br('<p> Le nom d\'utilisateur existe déjà </p>
                 <a href="index.php?action=register"> Revenir en arrière ? </a>');
         }
-
-        
-    
-        
     }
 
     public function login($pseudo, $password) {
         $passwordHash = hash('sha256', $password);
-        $user = $this->usersManager->getUserByPseudo($pseudo);
+        $this->user->setPseudo($pseudo);
+
+        $user = $this->usersManager->getUserByPseudo($this->user);
         
         if (preg_match("/$pseudo/i", $user['pseudo'])) {
             if(preg_match("/$passwordHash/i", $user['pass'])) {
@@ -67,11 +69,11 @@ private $user;
                 
                 header('Location: index.php');
             } else {
-                print('Le mdp pas ok :(');
+                echo nl2br('Le mot de passe saisi ne correspond pas à celui stocké dans la base de donnée');
             }
             
         } else {
-            print('Mauvais pseudo :(');
+            echo nl2br('Le pseudo saisi ne semble pas correspondre à un pseudo existant.');
         }
         
     }
@@ -89,10 +91,13 @@ private $user;
 
     // A test
     public function banUser($pseudo) {
-        $bannedUser = $this->usersManager->deleteUserByPseudo($pseudo);
-        $commentsUser = $this->commentsManager->deleteCommentByUser($pseudo);
+        $this->user->setPseudo($pseudo);
+
+        $bannedUser = $this->usersManager->deleteUserByPseudo($this->user);
+        $commentsUser = $this->commentsManager->deleteCommentByUser($this->user);
+        
         if ($bannedUser === false || $commentsUser === false) {
-            throw new Exception('Impossible de bannir l\'utilisateur');
+            echo nl2br('Impossible de bannir l\'utilisateur');
         } else {
             header('Location: index.php?action=adminPanel');
         }

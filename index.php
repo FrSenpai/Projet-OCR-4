@@ -12,13 +12,13 @@ use Projet\controller\{
 };
 
 
-//TODO : Assigner postid quand retour en arrière lors d'une erreur
+
 session_start();
 
 try {
-    //TODO : faire un swich avec get action
     if (isset($_GET['action'])) {
         // /!\ Partie front-end /!\
+
         //On veut check un article
         if ($_GET['action'] == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
@@ -29,6 +29,7 @@ try {
                 <a href="index.php"> Revenir en arrière ? </a>');
             }
         } 
+
         //On veut add un commentaire à un article spécifique
         if ($_GET['action'] == 'addComment') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
@@ -50,6 +51,7 @@ try {
                 <a href="index.php?action=post&id='.$_GET['postId'].'"> Revenir en arrière ? </a>');
             }
         }
+
         //Signalement d'un commentaire
         if ($_GET['action'] == 'reportComment') {
             if (isset($_GET['commentId']) && $_GET['commentId'] > 0) {
@@ -60,11 +62,13 @@ try {
                 <a href="index.php"> Revenir en arrière ? </a>');
             }
         }
+
         //On affiche la page d'inscription
         if ($_GET['action'] == 'register') {
             $user = new UsersController();
             $user->registerView();
         }
+
         //On envoie les données d'inscriptions
         if ($_GET['action'] == 'addUser') {
             if (isset($_POST['pseudo']) && isset($_POST['password'])) {
@@ -87,6 +91,7 @@ try {
             }
             
         }
+
         //On envoie les données de connexion
         if ($_GET['action'] == 'login') {
             if (isset($_POST['pseudo']) && isset($_POST['password'])) {
@@ -97,6 +102,7 @@ try {
                 <a href="index.php"> Revenir en arrière ? </a>');
             }
         } 
+        
         //On se déconnecte
         if ($_GET['action'] == 'logout') {
             $user = new UsersController();

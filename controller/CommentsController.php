@@ -25,21 +25,26 @@ class CommentsController {
     }
 
     public function addComment($postId, $user, $content) {
-        $comment = $this->commentsManager->addComment($postId, $user, $content);
+        $this->comment->setPostId($postId);
+        $this->comment->setUser($user);
+        $this->comment->setContent($content);
+
+        $comment = $this->commentsManager->addComment($this->comment);
     
         if ($comment === false) {
-            throw new Exception('Impossible d\'ajouter le commentaire...');
+            echo nl2br('Impossible d\'ajouter le commentaire...');
         } else {
             header('Location: index.php?action=post&id='.$postId);
         }
     }
 
     public function reportComment($commentId, $postId) {
+        $this->comment->setId($commentId);
 
-        $comment = $this->commentsManager->reportComment($commentId);
+        $comment = $this->commentsManager->reportComment($this->comment);
     
         if ($comment === false) {
-            throw new Exception('Impossible de signaler le commentaire...');
+            echo nl2br('Impossible de signaler le commentaire...');
         } else {
             header('Location: index.php?action=post&id='.$postId);
         }
@@ -47,20 +52,24 @@ class CommentsController {
     }
 
     public function deleteComment($commentId) {
-        $comment = $this->commentsManager->deleteComment($commentId);
+        $this->comment->setId($commentId);
+
+        $comment = $this->commentsManager->deleteComment($this->comment);
 
         if ($comment === false) {
-            throw new Exception('Impossible de supprimer le commentaire...');
+            echo nl2br('Impossible de supprimer le commentaire...');
         } else {
             header('Location: index.php?action=adminPanel');
         }
     }
 
     public function unreportComment($commentId) {
-        $comment = $this->commentsManager->unreportComment($commentId);
+        $this->comment->setId($commentId);
+
+        $comment = $this->commentsManager->unreportComment($this->comment);
 
         if ($comment === false) {
-            throw new Exception('Impossible d\'annuler le signalement du commentaire...');
+            echo nl2br('Impossible d\'annuler le signalement du commentaire...');
         } else {
             header('Location: index.php?action=adminPanel');
         }

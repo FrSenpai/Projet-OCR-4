@@ -5,7 +5,6 @@ namespace Projet\controller;
 require_once('model/PostsManager.php');
 require_once('model/Post.php');
 
-//TODO : Page "tous les articles" (prendre template homeview)
 
 use Projet\model\{
     PostsManager,
@@ -30,8 +29,10 @@ class PostsController {
     }
 
     public function viewPostById($postId) {
-        $postById = $this->postsManager->viewPostById($postId);
-        $comments = $this->commentsManager->getComments($postId);
+        $this->post->setId($postId);
+
+        $postById = $this->postsManager->viewPostById($this->post);
+        $comments = $this->commentsManager->getComments($this->post);
 
         if ($comments === false || $postById === false) {
             echo nl2br('<p>Le contenu demandé ne semble pas être disponible.</p>');
@@ -56,7 +57,10 @@ class PostsController {
     }
 
     public function sendNewPost($title, $content) {
-            $addPost = $this->postsManager->addPost($title, $content);
+            $this->post->setTitle($title);
+            $this->post->setContent($content);
+
+            $addPost = $this->postsManager->addPost($this->post);
             if ($addPost === false) {
                 echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
             } else {
@@ -65,7 +69,9 @@ class PostsController {
     }
 
     public function editPost($postId) {
-        $post = $this->postsManager->viewPostById($postId);
+        $this->post->setId($postId);
+
+        $post = $this->postsManager->viewPostById($this->post);
         
         if ($post === false) {
             echo nl2br('<p>Il semble y avoir eu un problème lors de l\'édition de l\'article. </p>');
@@ -77,7 +83,11 @@ class PostsController {
     }
 
     public function sendEditedPost($postId, $title, $content) {
-            $sendPost = $this->postsManager->editPost($postId, $title, $content);
+            $this->post->setId($postId);
+            $this->post->setTitle($title);
+            $this->post->setContent($content);
+
+            $sendPost = $this->postsManager->editPost($this->post);
 
             if ($sendPost === false) {
                 echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
@@ -87,8 +97,10 @@ class PostsController {
     }
 
     public function deletePostAndRelatedComments($postId) {
-        $deletePost = $this->postsManager->deletePost($postId);
-        $deleteComment = $this->commentsManager->deleteCommentByPostId($postId);
+        $this->post->setId($postId);
+
+        $deletePost = $this->postsManager->deletePost($this->post);
+        $deleteComment = $this->commentsManager->deleteCommentByPostId($this->post);
 
         if ($deletePost === false || $deleteComment === false) {
             echo nl2br('<p>Il semble y avoir eu un problème lors de la suppression de l\'article.</p>');

@@ -10,10 +10,7 @@ use Projet\model\{
 };
 
 class AdminController {
-    private $commentsManager;
-    private $usersManager;
-    private $postsManager;
-    private $comment;
+    private $user;
 
     public function __construct() {
         $this->user = new User();
