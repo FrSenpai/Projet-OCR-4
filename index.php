@@ -94,7 +94,7 @@ try {
 
         //On envoie les données de connexion
         if ($_GET['action'] == 'login') {
-            if (isset($_POST['pseudo']) && isset($_POST['password'])) {
+            if (!empty($_POST['pseudo']) && !empty($_POST['password'])) {
                 $user = new UsersController();
                 $user->login($_POST['pseudo'], $_POST['password']);
             } else {
@@ -290,5 +290,10 @@ try {
     
 }
 catch(Exception $e) {
-    echo '<p style="font-size:35px;text-align:center;">Erreur : ' . $e->getMessage() . '</p>';
+    ob_start();
+    ?> 
+    <p class="errorMsg">Erreur : <?= $e->getMessage(); ?></p>
+    <?php
+    $content = ob_get_clean();
+    require('view/frontend/template.php');
 }

@@ -24,6 +24,15 @@ class CommentsController {
         $this->usersManager = new UsersManager();
     }
 
+    public static function exception_handler($e) {
+        ob_start();
+        ?> 
+        <p class="errorMsg">Erreur : <?= $e->getMessage(); ?></p>
+        <?php
+        $content = ob_get_clean();
+        require('view/frontend/template.php');
+    }
+
     public function addComment($postId, $user, $content) {
         $this->comment->setPostId($postId);
         $this->comment->setUser($user);
@@ -32,7 +41,7 @@ class CommentsController {
         $comment = $this->commentsManager->addComment($this->comment);
     
         if ($comment === false) {
-            echo nl2br('Impossible d\'ajouter le commentaire...');
+            throw new Exception('Impossible d\'ajouter le commentaire.');
         } else {
             header('Location: index.php?action=post&id='.$postId);
         }
@@ -44,7 +53,7 @@ class CommentsController {
         $comment = $this->commentsManager->reportComment($this->comment);
     
         if ($comment === false) {
-            echo nl2br('Impossible de signaler le commentaire...');
+            throw new Exception('Impossible de signaler le commentaire.');
         } else {
             header('Location: index.php?action=post&id='.$postId);
         }
@@ -57,7 +66,7 @@ class CommentsController {
         $comment = $this->commentsManager->deleteComment($this->comment);
 
         if ($comment === false) {
-            echo nl2br('Impossible de supprimer le commentaire...');
+            throw new Exception('Impossible de supprimer le commentaire.');
         } else {
             header('Location: index.php?action=adminPanel');
         }
@@ -69,7 +78,7 @@ class CommentsController {
         $comment = $this->commentsManager->unreportComment($this->comment);
 
         if ($comment === false) {
-            echo nl2br('Impossible d\'annuler le signalement du commentaire...');
+            throw new Exception('Impossible d\'annuler le signalement du commentaire.');
         } else {
             header('Location: index.php?action=adminPanel');
         }

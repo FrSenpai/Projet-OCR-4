@@ -601,3 +601,9 @@ footer {
     width: 20%;
     margin-top: 10px;
 }
+
+.errorMsg {
+    margin: auto;
+    text-align: center;
+}
+

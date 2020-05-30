@@ -23,6 +23,15 @@ class PostsController {
         $this->commentsManager = new CommentsManager();
     }
 
+    public static function exception_handler($e) {
+        ob_start();
+        ?> 
+        <p class="errorMsg">Erreur : <?= $e->getMessage(); ?></p>
+        <?php
+        $content = ob_get_clean();
+        require('view/frontend/template.php');
+    }
+
     public function listPosts() {
         $posts = $this->postsManager->getPosts();
         require('view/frontend/homeView.php');
@@ -35,7 +44,7 @@ class PostsController {
         $comments = $this->commentsManager->getComments($this->post);
 
         if ($comments === false || $postById === false) {
-            echo nl2br('<p>Le contenu demandé ne semble pas être disponible.</p>');
+            throw new Exception('L\'article et/ou les commentaires ne sont pas disponibles');
         } else {
             require('view/frontend/postById.php');
         }
@@ -52,7 +61,7 @@ class PostsController {
             $nbPost = $this->postsManager->getPostsWithPagination($limite, $debut);
             require('view/backend/postsManagement.php');
         } else {
-            echo nl2br('<p>Il semble que le numéro de page demandé n\'existe pas...');
+            throw new Exception('Il semble que le numéro de page n\'existe pas.');
         }
     }
 
@@ -62,7 +71,7 @@ class PostsController {
 
             $addPost = $this->postsManager->addPost($this->post);
             if ($addPost === false) {
-                echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
+                throw new Exception('Il semble y avoir eu un problème lors de l\'ajout de l\'article.');
             } else {
                 header("Location: index.php?action=adminPostsManagement");
             }
@@ -74,7 +83,7 @@ class PostsController {
         $post = $this->postsManager->viewPostById($this->post);
         
         if ($post === false) {
-            echo nl2br('<p>Il semble y avoir eu un problème lors de l\'édition de l\'article. </p>');
+            throw new Exception('Il semble y avoir un problème lors de l\'affichage de l\'article souhaité.');
         } else {
             require('view/backend/editPost.php');
         }
@@ -90,7 +99,7 @@ class PostsController {
             $sendPost = $this->postsManager->editPost($this->post);
 
             if ($sendPost === false) {
-                echo nl2br('<p>Il semble y avoir eu un problème lors de l\'ajout de l\'article.</p>');
+                throw new Exception('Il semble y avoir eu un problème lors de l\'ajout de l\'article.');
             } else {
                 header("Location: index.php?action=adminPanel");
             } 
@@ -103,7 +112,7 @@ class PostsController {
         $deleteComment = $this->commentsManager->deleteCommentByPostId($this->post);
 
         if ($deletePost === false || $deleteComment === false) {
-            echo nl2br('<p>Il semble y avoir eu un problème lors de la suppression de l\'article.</p>');
+            throw new Exception('Il semble y avoir eu un problème lors de la suppression de l\'article.');
         } else {
             header("Location: index.php?action=adminPostsManagement");
         }
