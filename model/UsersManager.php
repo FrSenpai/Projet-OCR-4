@@ -2,23 +2,24 @@
 namespace Projet\model;
 use Projet\model\Manager;
 
+
 class UsersManager extends Manager {
-    public $nbUsers;
 
     //Add user
-    public function addUser($pseudo, $password) {
+    public function addUser($user) {
         $db = $this->dbConnect();
         $newUser = $db->prepare('INSERT INTO users(pseudo, pass, isAdmin) VALUES(?, ?, 0)');
-        $affectedUser = $newUser->execute(array($pseudo, $password));
+        $affectedUser = $newUser->execute(array($user->getPseudo(), $user->getPass()));
 
         return $affectedUser;
     }
 
     //get user by pseudo
-    public function getUserByPseudo($pseudo) {
+    public function getUserByPseudo($user) {
         $db = $this->dbConnect();
-        $user = $db->query('SELECT pseudo, pass, isAdmin FROM users WHERE pseudo =\''.$pseudo.'\'');
-        $affectedUser = $user->fetch();
+        $req = $db->prepare('SELECT pseudo, pass, isAdmin FROM users WHERE pseudo = ?');
+        $req->execute(array($user->getPseudo()));
+        $affectedUser = $req->fetch();
         return $affectedUser;
     }
 
@@ -26,15 +27,16 @@ class UsersManager extends Manager {
     //Count user
     public function countUsers() {
         $db = $this->dbConnect();
-        $users = $db->query('SELECT COUNT(*) FROM users');
-        $this->_nbUsers = $users->fetchColumn();
-        return $this->_nbUsers;
+        $req = $db->query('SELECT COUNT(*) FROM users');
+        $nbUsers = $req->fetchColumn();
+        return $nbUsers;
     }
 
     //Delete user
-    public function deleteUserByPseudo($pseudo) {
+    public function deleteUserByPseudo($user) {
         $db = $this->dbConnect();
-        $user = $db->query('DELETE FROM users WHERE pseudo=\''.$pseudo.'\'');
-        return $user;
+        $req = $db->prepare('DELETE FROM users WHERE pseudo= ?');
+        $affectedUser = $req->execute(array($user->getPseudo()));
+        return $affectedUser;
     }
 }

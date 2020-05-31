@@ -1,0 +1,117 @@
+@media all and (max-width: 800px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        justify-content: center;
+    }
+
+    #containerNav {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #titleNav {
+        display: flex;
+        align-items: center;
+    }
+
+    #titleLink {
+        width: 100%;
+        text-align: center;
+        padding: auto;
+    }
+
+    #containerLogin {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #formLogin {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .inputNav {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    #listeNav {
+        padding: 0;
+    }
+
+    #containerDescriptionAuthor {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    figure {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    figcaption {
+        margin-left: 10px;
+    }
+
+    #descriptionAuthor {
+        text-align: center;
+    }
+
+    #containerPost {
+        width: 100%;
+    }
+
+    .containerComment {
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        margin-top: 0;
+    }
+
+    .headComment {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        border-radius: 0;
+        border: 0;
+        margin:auto;
+    }
+
+    #formComment {
+        width: 100%;
+    }
+
+    #titleRegister {
+        width: 100%;
+    }
+
+    #formRegister {
+        width: 100%;
+    }
+
+    footer {
+        width: 100%;
+    }
+
+    .errorMsg {
+        font-size: 1.5em;
+    }
+
+    
+}

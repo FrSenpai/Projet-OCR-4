@@ -10,17 +10,13 @@ use Projet\model\{
 };
 
 class AdminController {
-    private $commentsManager;
-    private $usersManager;
-    private $postsManager;
-    private $comment;
+    private $user;
 
     public function __construct() {
         $this->user = new User();
     }
 
     public function viewAdminPanel($limite, $debut) {
-        //On a besoin d'afficher une pagination sur les commentaires report
         $user = new User();
         $user->showAdminPanel($limite, $debut);
     }

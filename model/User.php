@@ -64,7 +64,7 @@ class User
         return $this->_pseudo;
     }
 
-    public function getPassw(): string
+    public function getPass(): string
     {
         return $this->_pass;
     }
