@@ -11,6 +11,7 @@ use Projet\model\{
     Post,
     CommentsManager
 };
+use Exception;
 
 class PostsController {
     private $postsManager;
