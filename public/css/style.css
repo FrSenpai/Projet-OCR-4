@@ -496,7 +496,7 @@ footer {
 
 }
 
-#containerListPosts {
+.containerListPosts {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -514,10 +514,9 @@ footer {
     margin-top: 0;
     text-align: center;
     font-size: 22px;
-    margin-block-end: 0;
 }
 
-#titleReqPost {
+.titleReqPost {
     width: 80%;
     text-align: center;
     border-right: 1px black solid;

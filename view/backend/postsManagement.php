@@ -10,14 +10,13 @@
             
             while ($post = $nbPost->fetch()) {
                 ?>
-        <div id="containerListPosts">
-            <h4 id="titleReqPost"><?= $post['title']; ?></h4>
-            <div id="containerActionsPosts">
-                <a href="index.php?action=editPost&id=<?= $post['id']; ?>">Modifier</a>
-                <a href="index.php?action=deletePost&id=<?= $post['id']; ?>">Supprimer</a>
-            </div>
-
-        </div>
+                <div class="containerListPosts">
+                    <h4 class="titleReqPost"><?= $post['title']; ?></h4>
+                    <div class="containerActionsPosts">
+                        <a href="index.php?action=editPost&id=<?= $post['id']; ?>">Modifier</a>
+                        <a href="index.php?action=deletePost&id=<?= $post['id']; ?>">Supprimer</a>
+                    </div>
+                </div>
         <?php
             }
                 ?>
@@ -27,19 +26,19 @@
             //Pagination de la liste des posts
             if ($page > 1) {
                 ?>
-            <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $page - 1; ?>">Page précédente</a>
+                <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $page - 1; ?>">Page précédente</a>
             <?php
             }
 
             for ($i = 1; $i <=$nombreDePages; $i++) {
                 ?>
-            <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $i; ?>"><?php echo $i; ?></a>
             <?php
             }
             
             if ($page < $nombreDePages) {
                 ?>
-            <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $page + 1; ?>">Page suivante</a>
+                <a class="linkPagination" href="?action=adminPostsManagement&page=<?php echo $page + 1; ?>">Page suivante</a>
             <?php
             }
             

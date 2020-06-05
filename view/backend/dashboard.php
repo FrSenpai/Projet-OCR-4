@@ -22,15 +22,15 @@
                     <div class="containerAffectedComment">
                         <p id="contentCommentReported"><?= $commentsReported['user']; ?> : <?= $commentsReported['content']; ?></p>
                             <div id="containerActionsComment">
-                                <span><a class="linkActionsComment"
+                                <a class="linkActionsComment"
                                         href='index.php?action=deleteComment&commentId=<?= $commentsReported['id']; ?>'>Supprimer le
-                                        commentaire</a></span>
-                                <span><a class="linkActionsComment"
+                                        commentaire</a>
+                                <a class="linkActionsComment"
                                         href='index.php?action=banUser&pseudo=<?= $commentsReported['user']; ?>'>Bannir
-                                        l'utilisateur</a></span>
-                                <span><a class="linkActionsComment"
+                                        l'utilisateur</a>
+                                <a class="linkActionsComment"
                                         href="index.php?action=unreportComment&id=<?= $commentsReported['id']; ?>">Annuler le
-                                        signalement</a></span>
+                                        signalement</a>
                             </div>
                     </div>
                 <?php
@@ -42,26 +42,26 @@
             <?php
             if ($page > 1) {
             ?>
-            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page - 1; ?>">Page précédente</a>
+                <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page - 1; ?>">Page précédente</a>
             <?php
-                    }
+            }
 
-                    for ($i = 1; $i <=$nombreDeCommentaires; $i++) {
+            for ($i = 1; $i <=$nombreDeCommentaires; $i++) {
                         ?>
-            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <a class="linkPagination" href="?action=adminPanel&page=<?php echo $i; ?>"><?php echo $i; ?></a>
             <?php
-                    }
+            }
             
-                    if ($page < $nombreDeCommentaires) {
+            if ($page < $nombreDeCommentaires) {
                         ?>
-            <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page + 1; ?>">Page suivante</a>
+                <a class="linkPagination" href="?action=adminPanel&page=<?php echo $page + 1; ?>">Page suivante</a>
             <?php
-                    }
+            }
                     ?>
         </div>
         <?php
 
-                $nbComment->closeCursor();
+    $nbComment->closeCursor();
             
         ?>
     </div>
