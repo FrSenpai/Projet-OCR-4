@@ -6,9 +6,7 @@
 
 <article id="containerPost">
     <h3 id="titlePost"><?= htmlspecialchars($postById['title']); ?></h3>
-    <p>
-        <?= $postById['content']; ?>
-    </p>
+    <?= $postById['content']; ?>
     <em id="datePost">le <?= $postById['creation_date_fr'] ?></em>
     <?php 
 

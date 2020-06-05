@@ -2,14 +2,16 @@
 <html lang="fr">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Jean Forteroche - Un billet simple pour l'Alaska"/>
+	<meta property="og:description" content="Blog de l'auteur Jean Forteroche."/>
     <title><?= $title ?></title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" type="text/css" href="public/css/style.css" />
     <link rel="stylesheet" type="text/css" media="(max-width: 800px)" href="public/css/style_responsive.css" />
     <link href="https://fonts.googleapis.com/css?family=Oxanium:200&display=swap" rel="stylesheet">
+    <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/n0zjjp855koo6c45xxa86ptqybm4b9eakycd7lrnyr7nrcd2/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
     <script>
@@ -23,25 +25,23 @@
 <body>
     <header>
         <nav>
-            <h1 id="titleNav"><a href="index.php" id='titleLink'>Jean Forteroche - Un billet simple pour l'Alaska</a>
-            </h1>
+            <h1 id="titleNav"><a href="index.php" id='titleLink'>Jean Forteroche - Un billet simple pour l'Alaska</a></h1>
             <?php 
             if (isset($_SESSION['pseudo'])) {
                 ?>
-            <div id="containerNav">
-                <ul id="listeNav">
-
+                <div id="containerNav">
+                    <ul id="listeNav">
                     <?php 
-                                if (isset($_SESSION['isAdmin']) > 0) {
+                        if (isset($_SESSION['isAdmin']) > 0) {
                                     ?>
-                    <li class="elemNav"><a class="linkNav" href="index.php?action=adminPanel">Panneau
-                            d'administration</a></li>
-                    <?php
-                                }
-                            ?>
-                    <li class="elemNav"><a class="linkNav" href="index.php?action=logout">Deconnexion</a></li>
-                </ul>
-            </div>
+                            <li class="elemNav">
+                                <a class="linkNav" href="index.php?action=adminPanel">Panneau d'administration</a></li>
+                                <?php
+                        }
+                                ?>
+                        <li class="elemNav"><a class="linkNav" href="index.php?action=logout">Deconnexion</a></li>
+                    </ul>
+                </div>
             <?php 
             } else {
                 ?>
@@ -56,15 +56,13 @@
             <?php
             }
             ?>
-
-
-
         </nav>
     </header>
     <?= $content; ?>
     <footer>
-        <span><a class="linkNav" target="_blank"
-                href="https://www.linkedin.com/in/alexandre-parjouet-b197aa1a1/">@Alexandre Parjouet</a></span>
+        <span>
+            <a class="linkNav" target="_blank" href="https://www.linkedin.com/in/alexandre-parjouet-b197aa1a1/">@Alexandre Parjouet</a>
+        </span>
     </footer>
 </body>
 
