@@ -26,6 +26,7 @@ class CommentsController {
     }
 
     public static function exception_handler($e) {
+        $title = 'Erreur !';
         ob_start();
         ?> 
         <p class="errorMsg">Erreur : <?= $e->getMessage(); ?></p>

@@ -290,6 +290,7 @@ try {
     
 }
 catch(Exception $e) {
+    $title = 'Erreur !';
     ob_start();
     ?> 
     <p class="errorMsg">Erreur : <?= $e->getMessage(); ?></p>
